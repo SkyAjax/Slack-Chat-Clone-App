@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Simple clone of slack app",
-  "main": "index.js",
+  "main": "slack-chat/src/index.js",
   "scripts": {
     "build": "npm run build --prefix slack-chat",
     "start": "npx start-server -s ./slack-chat/build",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/SkyAjax/frontend-project-12/issues"
   },
-  "homepage": "https://github.com/SkyAjax/frontend-project-12#readme"
+  "homepage": "https://github.com/SkyAjax/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.6"
+  }
 }
