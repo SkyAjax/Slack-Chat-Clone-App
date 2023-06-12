@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run build --prefix slack-chat",
-    "start": "start-server -s ./slack-chat/build",
+    "start": "npx start-server -s ./slack-chat/build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd slack-chat && npm ci"
   },
