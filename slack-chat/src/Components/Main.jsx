@@ -1,15 +1,44 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-// import useAuth from '../hooks';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import routes from '../routes';
+
+import { actions as channelsActions } from '../slices/channelsSlice';
+import { actions as messagesActions } from '../slices/messagesSlice';
+import Channels from './Channels';
+
+const getAuthHeader = () => {
+  const userId = JSON.parse(localStorage.getItem('userId'));
+
+  if (userId && userId.token) {
+    return { Authorization: `Bearer ${userId.token}` };
+  }
+
+  return {};
+};
 
 const MainPage = () => {
-  const navigate = useNavigate();
-  //   const auth = useAuth();
-  const { token } = JSON.parse(localStorage.getItem('userId'));
-  useEffect(() => (!token ? navigate('login') : null));
+  const [currentChannel, setCurrentChannel] = useState(null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchData = async () => {
+      const request = getAuthHeader();
+      const response = await axios.get(routes.usersPath(), { headers: request });
+      const { data } = response;
+      const { channels, messages, currentChannelId } = data;
+      dispatch(channelsActions.addChannels(channels));
+      dispatch(messagesActions.addMessages(messages));
+      setCurrentChannel(currentChannelId);
+    };
+    fetchData();
+  }, [dispatch]);
 
   return (
-    <h1>Hey man!</h1>
+    <div>
+      <h1>Hey, Man!</h1>
+      <h3>{currentChannel}</h3>
+      <Channels />
+    </div>
   );
 };
 

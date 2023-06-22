@@ -8,7 +8,7 @@
 
 
 ## :rocket: Give it a try:
-Main link: https://frontend-project-12-production-9c3d.up.railway.app/ {:target="_blank" rel="noopener"}
+Main link: https://frontend-project-12-production-ae0b.up.railway.app/{:target="_blank"}
 
 
 ## :question: How to install:
