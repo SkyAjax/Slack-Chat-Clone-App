@@ -10,10 +10,9 @@ import AuthProvider from './Components/Auth';
 const PrivateRoute = ({ children }) => {
   // const auth = useAuth();
   const location = useLocation();
-  const { token } = JSON.parse(localStorage.getItem('userId'));
-
+  const userId = localStorage.getItem('userId');
   return (
-    token ? children : <Navigate to="/login" state={{ from: location }} />
+    userId ? children : <Navigate to="/login" state={{ from: location }} />
   );
 };
 
