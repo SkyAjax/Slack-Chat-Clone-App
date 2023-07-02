@@ -9,6 +9,8 @@ import Channel from './Channel';
 
 const Channels = () => {
   const channels = useSelector(selectors.selectAll);
+  console.log(channels);
+
   return (
     <>
       <Row className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">

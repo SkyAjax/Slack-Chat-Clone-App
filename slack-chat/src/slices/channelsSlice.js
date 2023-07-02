@@ -1,17 +1,36 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import routes from '../routes';
+import getAuthHeader from '../helpers';
 
 const channelsAdapter = createEntityAdapter();
 
-const initialState = channelsAdapter.getInitialState();
+const initialState = channelsAdapter.getInitialState({ currentChannelId: null });
+
+export const fetchChannels = createAsyncThunk(
+  'channels/fetchChannels',
+  async () => {
+    const request = getAuthHeader();
+    const response = await axios.get(routes.usersPath(), { headers: request });
+    const { currentChannelId, channels } = response.data;
+    return { currentChannelId, channels };
+  },
+);
 
 const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
-    addChannel: channelsAdapter.addOne,
-    addChannels: channelsAdapter.addMany,
-    renameChannel: channelsAdapter.updateOne,
-    removeChannel: channelsAdapter.removeOne,
+    setActiveChannel: channelsAdapter.updateOne,
+  },
+  extraReducers: (builder) => {
+    builder
+    // .addCase(fetchChannels.fulfilled, channelsAdapter.addMany);
+      .addCase(fetchChannels.fulfilled, (state, { payload }) => {
+        state.currentChannelId = payload.currentChannelId;
+        channelsAdapter.addMany(state, payload.channels);
+      });
   },
 });
 

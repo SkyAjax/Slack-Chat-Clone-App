@@ -5,6 +5,7 @@ import Login from './Components/Login';
 import ErrorPage from './Components/Error';
 import MainPage from './Components/Main';
 import AuthProvider from './Components/Auth';
+import Navbar from './Components/Navbar';
 // import useAuth from './hooks';
 
 const PrivateRoute = ({ children }) => {
@@ -19,18 +20,21 @@ const PrivateRoute = ({ children }) => {
 const App = () => (
   <AuthProvider>
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={(
-            <PrivateRoute>
-              <MainPage />
-            </PrivateRoute>
+      <div className="d-flex flex-column h-100">
+        <Navbar />
+        <Routes>
+          <Route
+            path="/"
+            element={(
+              <PrivateRoute>
+                <MainPage />
+              </PrivateRoute>
           )}
-        />
-        <Route path="*" element={<ErrorPage />} />
-        <Route path="login" element={<Login />} />
-      </Routes>
+          />
+          <Route path="*" element={<ErrorPage />} />
+          <Route path="login" element={<Login />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   </AuthProvider>
 );

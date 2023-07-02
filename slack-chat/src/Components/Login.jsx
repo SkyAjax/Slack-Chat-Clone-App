@@ -19,7 +19,6 @@ const Login = () => {
   const inputRef = useRef(null);
   const auth = useAuth();
   const navigate = useNavigate();
-  // const location = useLocation();
   return (
     <Container className="p-3">
       <h1>Sign In</h1>
