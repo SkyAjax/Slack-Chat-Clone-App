@@ -33,7 +33,7 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchMessages.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        console.log(action.payload);
         messageAdapter.addMany(state, action);
       });
   },

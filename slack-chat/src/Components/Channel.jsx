@@ -1,15 +1,17 @@
 // import React from 'react';
 
 import { Button, ListGroupItem } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 const Channel = (props) => {
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const { channel } = props;
-  const { name } = channel;
+  const { name, id } = channel;
+  const btnVariant = currentChannelId === id ? 'secondary' : 'light';
   return (
     <ListGroupItem className="ms-4 me-2 p-0">
-      <Button variant="secondary" className="w-100 rounded-0 text-start">
-        <span className="me-1">#</span>
-        {name}
+      <Button variant={btnVariant} className="w-100 rounded-0 text-start btn">
+        {`# ${name}`}
       </Button>
     </ListGroupItem>
   );

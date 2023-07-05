@@ -6,7 +6,8 @@ import getAuthHeader from '../helpers';
 
 const channelsAdapter = createEntityAdapter();
 
-const initialState = channelsAdapter.getInitialState({ currentChannelId: null });
+const defaultChannelId = 1;
+const initialState = channelsAdapter.getInitialState({ currentChannelId: defaultChannelId });
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',

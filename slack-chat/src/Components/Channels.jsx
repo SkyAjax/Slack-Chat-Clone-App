@@ -9,7 +9,6 @@ import Channel from './Channel';
 
 const Channels = () => {
   const channels = useSelector(selectors.selectAll);
-  console.log(channels);
 
   return (
     <>
