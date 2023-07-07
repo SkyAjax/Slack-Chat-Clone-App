@@ -6,6 +6,7 @@ import ErrorPage from './Components/Error';
 import MainPage from './Components/Main';
 import AuthProvider from './Components/Auth';
 import Navbar from './Components/Navbar';
+import Modal from './Components/Modals/Modal';
 // import useAuth from './hooks';
 
 const PrivateRoute = ({ children }) => {
@@ -21,6 +22,7 @@ const App = () => (
   <AuthProvider>
     <BrowserRouter>
       <div className="d-flex flex-column h-100">
+        <Modal />
         <Navbar />
         <Routes>
           <Route

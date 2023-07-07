@@ -1,4 +1,5 @@
 // import { Row } from 'react-bootstrap';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectByChannelIds } from '../slices/messagesSlice';
 import { selectors as channelSelectors } from '../slices/channelsSlice';
@@ -11,6 +12,10 @@ const Messages = () => {
   const activeChannel = channels.find((channel) => channel.id === currentChannelId);
   const { name, id } = activeChannel;
   const messages = useSelector(selectByChannelIds(id));
+
+  useEffect(() => {
+
+  });
 
   return (
     <div className="d-flex flex-column h-100">

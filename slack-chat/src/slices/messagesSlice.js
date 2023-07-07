@@ -9,6 +9,7 @@ import
 import axios from 'axios';
 import routes from '../routes';
 import getAuthHeader from '../helpers';
+import { actions as channelActions } from './channelsSlice';
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
@@ -31,10 +32,15 @@ const messagesSlice = createSlice({
     addMessages: messageAdapter.addMany,
   },
   extraReducers: (builder) => {
+    const { removeChannel } = channelActions;
     builder
       .addCase(fetchMessages.fulfilled, (state, action) => {
-        console.log(action.payload);
         messageAdapter.addMany(state, action);
+      })
+      .addCase(removeChannel, (state, { payload }) => {
+        const restEntities = Object.values(state.entities)
+          .filter((message) => message.channelId !== payload);
+        messageAdapter.setAll(state, restEntities);
       });
   },
 });
