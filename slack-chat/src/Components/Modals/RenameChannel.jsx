@@ -9,6 +9,7 @@ import { actions as channelActions, selectors as channelSelectors } from '../../
 import socket from '../../socket';
 
 const RenameChannel = (props) => {
+  console.log('wor');
   const [disabled, setDisable] = useState(false);
   const inputRef = useRef(null);
   const { onHide, modalInfo } = props;
@@ -27,6 +28,7 @@ const RenameChannel = (props) => {
   const formik = useFormik({
     initialValues: { body: name },
     onSubmit: (values) => {
+      console.log('sending');
       socket.on('renameChannel', (payload) => {
         console.log(payload);
         dispatch(channelActions.renameChannel(
@@ -35,6 +37,7 @@ const RenameChannel = (props) => {
       });
       socket.emit('renameChannel', { id, name: values.body }, (response) => {
         const { status } = response;
+        console.log(status);
         setDisable(true);
         if (status === 'ok') {
           setDisable(false);
@@ -45,15 +48,17 @@ const RenameChannel = (props) => {
     },
     validationSchema: NameSchema,
     validateOnChange: false,
+    validateOnBlur: false,
   });
 
   useEffect(() => {
     inputRef.current.focus();
-    inputRef.current.select();
+    console.log('rendered');
+    return () => {
+      console.log('cleaning');
+      console.log('good to go');
+    };
   }, []);
-
-  useEffect(() => {
-  }, [disabled]);
 
   return (
     <Modal show>

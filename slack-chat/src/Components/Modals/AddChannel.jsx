@@ -9,6 +9,7 @@ import { actions as channelActions, selectors as channelSelectors } from '../../
 import socket from '../../socket';
 
 const AddChannel = (props) => {
+  console.log('open');
   const [disabled, setDisable] = useState(false);
   const { onHide } = props;
   const dispatch = useDispatch();
@@ -25,7 +26,6 @@ const AddChannel = (props) => {
   const formik = useFormik({
     initialValues: { body: '' },
     onSubmit: (values) => {
-      formik.setSubmitting(false);
       socket.on('newChannel', (payload) => {
         dispatch(channelActions.addChannel(payload));
         dispatch(channelActions.setActiveChannel(payload));
@@ -43,15 +43,14 @@ const AddChannel = (props) => {
     },
     validationSchema: NameSchema,
     validateOnChange: false,
+    validateOnBlur: false,
+    validateOnMount: false,
   });
-
   const inputRef = useRef();
   useEffect(() => {
+    console.log('eff');
     inputRef.current.focus();
   }, []);
-
-  useEffect(() => {
-  }, [disabled]);
 
   return (
     <Modal show>
