@@ -11,18 +11,17 @@ const RemoveChannel = (props) => {
   const dispatch = useDispatch();
 
   const handleRemove = (channel) => {
+    setDisable(true);
     const { id } = channel;
     socket.emit('removeChannel', { id }, (response) => {
       const { status } = response;
-      if (status === 'ok') {
-        return onHide();
-      }
-      return setDisable(false);
+      return status === 'ok' ? onHide() : setDisable(false);
     });
     socket.on('removeChannel', () => {
       dispatch(channelActions.removeChannel(id));
       dispatch(channelActions.setActiveChannel({ id: 1 }));
     });
+    socket.off('renameChannel');
   };
 
   return (

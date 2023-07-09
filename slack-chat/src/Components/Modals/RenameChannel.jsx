@@ -9,7 +9,7 @@ import { actions as channelActions, selectors as channelSelectors } from '../../
 import socket from '../../socket';
 
 const RenameChannel = (props) => {
-  console.log('wor');
+  console.log('rename channel');
   const [disabled, setDisable] = useState(false);
   const inputRef = useRef(null);
   const { onHide, modalInfo } = props;
@@ -28,22 +28,17 @@ const RenameChannel = (props) => {
   const formik = useFormik({
     initialValues: { body: name },
     onSubmit: (values) => {
-      console.log('sending');
+      setDisable(true);
       socket.on('renameChannel', (payload) => {
         console.log(payload);
         dispatch(channelActions.renameChannel(
           { id: payload.id, changes: { name: [payload.name] } },
         ));
+        socket.off('renameChannel');
       });
       socket.emit('renameChannel', { id, name: values.body }, (response) => {
         const { status } = response;
-        console.log(status);
-        setDisable(true);
-        if (status === 'ok') {
-          setDisable(false);
-          return onHide();
-        }
-        return setDisable(false);
+        return status === 'ok' ? onHide() : setDisable(false);
       });
     },
     validationSchema: NameSchema,
@@ -52,12 +47,10 @@ const RenameChannel = (props) => {
   });
 
   useEffect(() => {
-    inputRef.current.focus();
-    console.log('rendered');
-    return () => {
-      console.log('cleaning');
-      console.log('good to go');
-    };
+    setTimeout(() => {
+      inputRef.current.focus();
+      inputRef.current.select();
+    });
   }, []);
 
   return (

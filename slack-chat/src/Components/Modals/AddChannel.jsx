@@ -9,7 +9,6 @@ import { actions as channelActions, selectors as channelSelectors } from '../../
 import socket from '../../socket';
 
 const AddChannel = (props) => {
-  console.log('open');
   const [disabled, setDisable] = useState(false);
   const { onHide } = props;
   const dispatch = useDispatch();
@@ -29,6 +28,7 @@ const AddChannel = (props) => {
       socket.on('newChannel', (payload) => {
         dispatch(channelActions.addChannel(payload));
         dispatch(channelActions.setActiveChannel(payload));
+        socket.off('newChannel');
       });
       socket.emit('newChannel', { name: values.body }, (response) => {
         const { status } = response;
@@ -48,7 +48,6 @@ const AddChannel = (props) => {
   });
   const inputRef = useRef();
   useEffect(() => {
-    console.log('eff');
     inputRef.current.focus();
   }, []);
 
