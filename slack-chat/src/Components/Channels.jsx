@@ -29,7 +29,7 @@ const Channels = () => {
         </Col>
       </Row>
       <Row className="d-flex flex-column h-100 w-100 m-0 overflow-auto">
-        <ListGroup as="ul" className="rounded-0 mb-3 overflow-auto flex-column w-100 p-0 d-block list-group-flush">
+        <ListGroup as="ul" className="rounded-0 mb-3 flex-column w-100 p-0 d-block list-group-flush">
           {channels.map((channel) => (
             <Channel key={channel.id} channel={channel} />
           ))}

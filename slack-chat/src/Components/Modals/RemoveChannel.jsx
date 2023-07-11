@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { actions as channelActions } from '../../slices/channelsSlice';
+// import { useDispatch } from 'react-redux';
+// import { actions as channelActions } from '../../slices/channelsSlice';
 import socket from '../../socket';
 
 const RemoveChannel = (props) => {
   const [disabled, setDisable] = useState(false);
   const { onHide, modalInfo } = props;
   const { item } = modalInfo;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleRemove = (channel) => {
     setDisable(true);
@@ -17,15 +17,10 @@ const RemoveChannel = (props) => {
       const { status } = response;
       return status === 'ok' ? onHide() : setDisable(false);
     });
-    socket.on('removeChannel', () => {
-      dispatch(channelActions.removeChannel(id));
-      dispatch(channelActions.setActiveChannel({ id: 1 }));
-    });
-    socket.off('renameChannel');
   };
 
   return (
-    <Modal show>
+    <Modal show centered>
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title>Remove Channel</Modal.Title>
       </Modal.Header>

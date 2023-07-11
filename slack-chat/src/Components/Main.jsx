@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';//
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 
-import { fetchChannels } from '../slices/channelsSlice';
+import { fetchChannels, actions as channelActions } from '../slices/channelsSlice';
 import { fetchMessages } from '../slices/messagesSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 // import useAuth from '../hooks';
 import Spinner from './Spinner';
+import socket from '../socket';
 
 const MainPage = () => {
   const [loadingState, setLoadingState] = useState('loading');
@@ -19,6 +20,28 @@ const MainPage = () => {
       setLoadingState('idle');
     };
     fetch();
+    socket.on('removeChannel', (payload) => {
+      dispatch(channelActions.removeChannel(payload.id));
+      dispatch(channelActions.setActiveChannel({ id: 1 }));
+    });
+
+    socket.on('renameChannel', (payload) => {
+      dispatch(channelActions.renameChannel(
+        { id: payload.id, changes: { name: [payload.name] } },
+      ));
+    });
+
+    socket.on('newChannel', (payload) => {
+      dispatch(channelActions.addChannel(payload));
+      dispatch(channelActions.setActiveChannel(payload));
+      socket.off('newChannel');
+    });
+
+    return () => {
+      socket.off('removeChannel');
+      socket.off('renameChannel');
+      socket.off('newChannel');
+    };
   }, [dispatch]);
 
   return (

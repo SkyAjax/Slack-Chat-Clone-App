@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import {
   FormControl, FormGroup, Button, Modal,
 } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { actions as channelActions, selectors as channelSelectors } from '../../slices/channelsSlice';
+import { selectors as channelSelectors } from '../../slices/channelsSlice';
 import socket from '../../socket';
 
 const AddChannel = (props) => {
   const [disabled, setDisable] = useState(false);
   const { onHide } = props;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const channelsNames = useSelector(channelSelectors.selectAll).map((channel) => channel.name);
 
   const NameSchema = Yup.object().shape({
@@ -25,11 +25,6 @@ const AddChannel = (props) => {
   const formik = useFormik({
     initialValues: { body: '' },
     onSubmit: (values) => {
-      socket.on('newChannel', (payload) => {
-        dispatch(channelActions.addChannel(payload));
-        dispatch(channelActions.setActiveChannel(payload));
-        socket.off('newChannel');
-      });
       socket.emit('newChannel', { name: values.body }, (response) => {
         const { status } = response;
         setDisable(true);
@@ -52,7 +47,7 @@ const AddChannel = (props) => {
   }, []);
 
   return (
-    <Modal show>
+    <Modal show centered>
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title>Add Channel</Modal.Title>
       </Modal.Header>
@@ -65,6 +60,7 @@ const AddChannel = (props) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.body}
+              id="channelNameInput"
               name="body"
               isInvalid={!!formik.errors.body}
             />

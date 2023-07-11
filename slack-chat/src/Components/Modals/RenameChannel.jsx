@@ -2,19 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import {
   FormControl, FormGroup, Button, Modal,
 } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { actions as channelActions, selectors as channelSelectors } from '../../slices/channelsSlice';
+import { selectors as channelSelectors } from '../../slices/channelsSlice';
 import socket from '../../socket';
 
 const RenameChannel = (props) => {
-  console.log('rename channel');
   const [disabled, setDisable] = useState(false);
   const inputRef = useRef(null);
   const { onHide, modalInfo } = props;
   const { id, name } = modalInfo.item;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const channelsNames = useSelector(channelSelectors.selectAll).map((channel) => channel.name);
 
   const NameSchema = Yup.object().shape({
@@ -29,13 +28,6 @@ const RenameChannel = (props) => {
     initialValues: { body: name },
     onSubmit: (values) => {
       setDisable(true);
-      socket.on('renameChannel', (payload) => {
-        console.log(payload);
-        dispatch(channelActions.renameChannel(
-          { id: payload.id, changes: { name: [payload.name] } },
-        ));
-        socket.off('renameChannel');
-      });
       socket.emit('renameChannel', { id, name: values.body }, (response) => {
         const { status } = response;
         return status === 'ok' ? onHide() : setDisable(false);
@@ -51,10 +43,14 @@ const RenameChannel = (props) => {
       inputRef.current.focus();
       inputRef.current.select();
     });
+
+  //   return () => {
+  //     socket.off('renameChannel');
+  //   };
   }, []);
 
   return (
-    <Modal show>
+    <Modal show centered>
       <Modal.Header closeButton onHide={() => onHide()}>
         <Modal.Title>Rename Channel</Modal.Title>
       </Modal.Header>
@@ -67,6 +63,7 @@ const RenameChannel = (props) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.body}
+              id="channelRenameInput"
               name="body"
               isInvalid={!!formik.errors.body}
             />
