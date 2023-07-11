@@ -13,8 +13,11 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       const token = JSON.parse(localStorage.getItem('userId'));
-      setUsername(token.username);
-      logIn();
+      if (token) {
+        setUsername(token.username);
+        return logIn();
+      }
+      return logOut();
     };
     fetchData();
   }, []);

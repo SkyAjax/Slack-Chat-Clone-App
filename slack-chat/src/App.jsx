@@ -7,6 +7,7 @@ import MainPage from './Components/Main';
 import AuthProvider from './Components/Auth';
 import Navbar from './Components/Navbar';
 import Modal from './Components/Modals/Modal';
+import Signup from './Components/Signup';
 // import useAuth from './hooks';
 
 const PrivateRoute = ({ children }) => {
@@ -35,6 +36,7 @@ const App = () => (
           />
           <Route path="*" element={<ErrorPage />} />
           <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
         </Routes>
       </div>
     </BrowserRouter>

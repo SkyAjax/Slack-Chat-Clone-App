@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 
 import { fetchChannels, actions as channelActions } from '../slices/channelsSlice';
-import { fetchMessages } from '../slices/messagesSlice';
+import { fetchMessages, actions as messageActions } from '../slices/messagesSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 // import useAuth from '../hooks';
@@ -34,13 +34,17 @@ const MainPage = () => {
     socket.on('newChannel', (payload) => {
       dispatch(channelActions.addChannel(payload));
       dispatch(channelActions.setActiveChannel(payload));
-      socket.off('newChannel');
+    });
+
+    socket.on('newMessage', (payload) => {
+      dispatch(messageActions.addMessage(payload));
     });
 
     return () => {
       socket.off('removeChannel');
       socket.off('renameChannel');
       socket.off('newChannel');
+      socket.off('newMessage');
     };
   }, [dispatch]);
 

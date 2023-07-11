@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import React, { useRef } from 'react';
 import { Formik } from 'formik';
 import {
@@ -11,13 +12,18 @@ import useAuth from '../hooks';
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
-    .min(2, 'Минимум 2 буквы')
-    .max(50, 'Максимум 50 букв')
+    .min(3, 'Минимум 3 буквы')
+    .max(20, 'Максимум 20 букв')
     .required('Обязательное поле'),
-  password: Yup.string().required('Обязательное поле'),
+  password: Yup.string()
+    .required('Обязательное поле')
+    .min(6, 'Минимум 6 символов'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], 'Пароли не совпадают')
+    .required('Обязательное поле'),
 });
 
-const Login = () => {
+const Signup = () => {
   const inputRef = useRef(null);
   const auth = useAuth();
   const navigate = useNavigate();
@@ -27,24 +33,30 @@ const Login = () => {
         <div className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow-sm">
             <Card.Body className="p-5">
-              <h1>Sign In</h1>
+              <h1>Sign Up</h1>
               <Formik
                 initialValues={{
                   username: '',
                   password: '',
+                  confirmPassword: '',
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={async (values, actions) => {
                   try {
-                    const response = await axios.post(routes.loginPath(), values);
+                    const response = await axios.post(routes.signupPath(), values);
+                    console.log(response);
                     localStorage.setItem('userId', JSON.stringify(response.data));
                     auth.setUsername(response.data.username);
                     auth.logIn();
                     navigate('/');
                   } catch (e) {
+                    if (e.response.status === 409) {
+                      return actions.setErrors({
+                        username: 'Такой пользователь уже существует',
+                      });
+                    }
                     actions.setErrors({
-                      username: ' ',
-                      password: 'Неверные имя пользователя или пароль',
+                      username: 'Ошибка регистрации, попробуйте еще раз',
                     });
                     inputRef.current.focus();
                     inputRef.current.select();
@@ -53,10 +65,12 @@ const Login = () => {
                 }}
               >
                 {({
-                  handleSubmit, handleChange, values, errors, touched,
+                  handleSubmit, handleChange, handleBlur, values, errors, touched,
                 }) => (
-
-                  <Form noValidate onSubmit={handleSubmit}>
+                  <Form
+                    noValidate
+                    onSubmit={handleSubmit}
+                  >
                     <Form.Group className="mb-3">
                       <Form.Label>Username</Form.Label>
                       <Form.Control
@@ -66,8 +80,8 @@ const Login = () => {
                         placeholder="Username"
                         value={values.username}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         isInvalid={touched.username && !!errors.username}
-                        autoFocus
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.username}
@@ -82,6 +96,7 @@ const Login = () => {
                         placeholder="Password"
                         value={values.password}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         isInvalid={touched.password && !!errors.password}
                       />
                       <Form.Control.Feedback type="invalid">
@@ -89,20 +104,35 @@ const Login = () => {
                       </Form.Control.Feedback>
                     </Form.Group>
 
+                    <Form.Group className="mb-3">
+                      <Form.Label>Confirm Password</Form.Label>
+                      <Form.Control
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={values.repeatPassword}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        isInvalid={touched.confirmPassword && !!errors.confirmPassword}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.confirmPassword}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+
                     <Button variant="primary" type="submit">
-                      Submit
+                      Register
                     </Button>
                   </Form>
-
                 )}
               </Formik>
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                {'Don\'t have an account? '}
+                {'Already have an account? '}
                 <span>
                   <Card.Link>
-                    <Link to="/signup">Register</Link>
+                    <Link to="/login">Sign In</Link>
                   </Card.Link>
                 </span>
               </div>
@@ -114,4 +144,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button, Form, InputGroup } from 'react-bootstrap';
-import { actions as messageActions } from '../slices/messagesSlice';
 import useAuth from '../hooks';
 import socket from '../socket';
 
@@ -11,7 +10,6 @@ const MessageInput = () => {
   const channelId = useSelector((state) => state.channels.currentChannelId);
   const auth = useAuth();
   const inputEl = useRef(null);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setDisable(!messageText.trim());
@@ -22,9 +20,6 @@ const MessageInput = () => {
     e.preventDefault();
     setDisable(true);
     const { username } = auth;
-    socket.on('newMessage', (payload) => {
-      dispatch(messageActions.addMessage(payload));
-    });
     socket.emit('newMessage', { body: messageText, channelId, username }, (response) => {
       const { status } = response;
       if (status === 'ok') {
