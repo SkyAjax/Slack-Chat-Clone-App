@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { actions as channelActions } from '../slices/channelsSlice';
 import { actions as modalActions } from '../slices/modalsSlice';
+import profanityFilter from '../profanityFilter';
 
 const Channel = (props) => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
@@ -30,7 +31,7 @@ const Channel = (props) => {
 
   const btn = (
     <Button variant={btnVariant} className="w-100 rounded-0 text-start btn shadow-none text-truncate" onClick={() => handleClick(channel)}>
-      {`# ${name}`}
+      {`# ${profanityFilter(name)}`}
     </Button>
   );
 

@@ -5,6 +5,7 @@ import { selectByChannelIds } from '../slices/messagesSlice';
 import { selectors as channelSelectors } from '../slices/channelsSlice';
 import Message from './Message';
 import MessageInput from './MessageInput';
+import profanityFilter from '../profanityFilter';
 
 const Messages = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
@@ -18,7 +19,7 @@ const Messages = () => {
     <div className="d-flex flex-column h-100">
       <div className="mb-4 shadow-sm small p-3 bg-light">
         <p className="m-0">
-          <b>{`# ${name}`}</b>
+          <b>{`# ${profanityFilter(name)}`}</b>
         </p>
         <span className="text-muted">{t('messages.messageCounter.count', { count: messages.length })}</span>
       </div>
