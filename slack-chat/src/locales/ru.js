@@ -38,19 +38,20 @@ const ru = {
     },
     errors: {
       field_too_short: {
-        symbol_one: 'минимум {{symbol}} символ',
-        symbol_few: 'минимум {{symbol}} символа',
-        symbol_many: 'минимум {{symbol}} символов',
+        symbol_one: 'минимум {{count}} символ',
+        symbol_few: 'минимум {{count}} символа',
+        symbol_many: 'минимум {{count}} символов',
       },
       field_too_long: {
-        symbol_few: 'максимум {{symbol}} символа',
-        symbol_many: 'максимум {{symbol}} символов',
+        symbol_few: 'максимум {{count}} символа',
+        symbol_many: 'максимум {{count}} символов',
       },
       notUnique: 'Такой пользователь уже существует',
       required: 'Обязательное поле',
       wrongCredentials: 'Неправильный логин или пароль',
       defaultSignUp: 'Ошибка регистрации, попробуйте еще раз',
       not_the_same: 'Пароли не совпадают',
+      too_much: 'Слишком много',
     },
   },
 };

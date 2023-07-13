@@ -1,14 +1,14 @@
 import * as Yup from 'yup';
+import i18n from './i18n';
 
 Yup.setLocale({
   mixed: {
-    required: 'errors.required',
-    oneOf: 'errors.not_the_same',
+    required: i18n.t('errors.required'),
+    oneOf: i18n.t('errors.not_the_same'),
   },
   string: {
-    // t('messages.messageCounter.count', { count: messages.length })
-    min: 'errors.field_too_short.symbol_one',
-    max: ({ max }) => ({ key: 'errors.field_too_long.symbol', symbol: { max } }),
+    min: ({ min }) => i18n.t('errors.field_too_short.symbol', { count: min }),
+    max: ({ max }) => i18n.t('errors.field_too_long.symbol', { count: max }),
   },
 });
 
