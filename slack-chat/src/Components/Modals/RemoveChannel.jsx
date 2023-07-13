@@ -1,23 +1,27 @@
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-// import { useDispatch } from 'react-redux';
-// import { actions as channelActions } from '../../slices/channelsSlice';
 import socket from '../../socket';
+import toast from '../../toast';
 
 const RemoveChannel = (props) => {
   const [disabled, setDisable] = useState(false);
   const { t } = useTranslation();
   const { onHide, modalInfo } = props;
   const { item } = modalInfo;
-  // const dispatch = useDispatch();
 
   const handleRemove = (channel) => {
     setDisable(true);
     const { id } = channel;
     socket.emit('removeChannel', { id }, (response) => {
       const { status } = response;
-      return status === 'ok' ? onHide() : setDisable(false);
+      if (status === 'ok') {
+        setDisable(false);
+        onHide();
+        return toast('success', 'removeChannel');
+      }
+      setDisable(false);
+      return onHide();
     });
   };
 

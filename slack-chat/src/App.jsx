@@ -1,6 +1,8 @@
 import {
   BrowserRouter, Routes, Route, useLocation, Navigate,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Login from './Components/Login';
 import ErrorPage from './Components/Error';
 import MainPage from './Components/Main';
@@ -8,10 +10,8 @@ import AuthProvider from './Components/Auth';
 import Navbar from './Components/Navbar';
 import Modal from './Components/Modals/Modal';
 import Signup from './Components/Signup';
-// import useAuth from './hooks';
 
 const PrivateRoute = ({ children }) => {
-  // const auth = useAuth();
   const location = useLocation();
   const userId = localStorage.getItem('userId');
   return (
@@ -24,6 +24,7 @@ const App = () => (
     <BrowserRouter>
       <div className="d-flex flex-column h-100">
         <Modal />
+        <ToastContainer />
         <Navbar />
         <Routes>
           <Route

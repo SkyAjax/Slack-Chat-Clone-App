@@ -10,6 +10,7 @@ import axios from 'axios';
 import routes from '../routes';
 import getAuthHeader from '../helpers';
 import { actions as channelActions } from './channelsSlice';
+import toast from '../toast';
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
@@ -36,6 +37,9 @@ const messagesSlice = createSlice({
     builder
       .addCase(fetchMessages.fulfilled, (state, action) => {
         messageAdapter.addMany(state, action);
+      })
+      .addCase(fetchMessages.rejected, () => {
+        toast('error', 'fetchError');
       })
       .addCase(removeChannel, (state, { payload }) => {
         const restEntities = Object.values(state.entities)

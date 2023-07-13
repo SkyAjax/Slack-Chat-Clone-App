@@ -28,6 +28,16 @@ const ru = {
       removeChannel: 'Удалить канал',
       confirmMessage: 'Вы уверены?',
     },
+    toast: {
+      success: {
+        addChannel: 'Канал добавлен',
+        renameChannel: 'Канал переименован',
+        removeChannel: 'Канал удален',
+      },
+      error: {
+        fetchError: 'Ошибка загрузки данных',
+      },
+    },
     auth: {
       logIn: 'Войти',
       username: 'Логин',
@@ -37,12 +47,12 @@ const ru = {
       signUpMessage: 'Нет аккаунта?',
     },
     errors: {
-      field_too_short: {
+      fieldTooShort: {
         symbol_one: 'минимум {{count}} символ',
         symbol_few: 'минимум {{count}} символа',
         symbol_many: 'минимум {{count}} символов',
       },
-      field_too_long: {
+      fieldTooLong: {
         symbol_few: 'максимум {{count}} символа',
         symbol_many: 'максимум {{count}} символов',
       },
@@ -50,8 +60,7 @@ const ru = {
       required: 'Обязательное поле',
       wrongCredentials: 'Неправильный логин или пароль',
       defaultSignUp: 'Ошибка регистрации, попробуйте еще раз',
-      not_the_same: 'Пароли не совпадают',
-      too_much: 'Слишком много',
+      notTheSame: 'Пароли не совпадают',
     },
   },
 };

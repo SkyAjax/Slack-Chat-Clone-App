@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { selectors as channelSelectors } from '../../slices/channelsSlice';
+import toast from '../../toast';
 import socket from '../../socket';
 
 const AddChannel = (props) => {
@@ -17,10 +18,10 @@ const AddChannel = (props) => {
 
   const NameSchema = Yup.object().shape({
     body: Yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .required('Обязательное поле')
-      .notOneOf(channelsNames, 'Должно быть уникальным'),
+      .min(3)
+      .max(20)
+      .required()
+      .notOneOf(channelsNames),
   });
 
   const formik = useFormik({
@@ -31,7 +32,8 @@ const AddChannel = (props) => {
         setDisable(true);
         if (status === 'ok') {
           setDisable(false);
-          return onHide();
+          onHide();
+          return toast('success', 'addChannel');
         }
         setDisable(false);
         return onHide();

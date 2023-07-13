@@ -4,11 +4,11 @@ import i18n from './i18n';
 Yup.setLocale({
   mixed: {
     required: i18n.t('errors.required'),
-    oneOf: i18n.t('errors.not_the_same'),
+    oneOf: i18n.t('errors.notTheSame'),
   },
   string: {
-    min: ({ min }) => i18n.t('errors.field_too_short.symbol', { count: min }),
-    max: ({ max }) => i18n.t('errors.field_too_long.symbol', { count: max }),
+    min: ({ min }) => i18n.t('errors.fieldTooShort.symbol', { count: min }),
+    max: ({ max }) => i18n.t('errors.fieldTooLong.symbol', { count: max }),
   },
 });
 

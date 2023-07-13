@@ -6,7 +6,6 @@ import { fetchChannels, actions as channelActions } from '../slices/channelsSlic
 import { fetchMessages, actions as messageActions } from '../slices/messagesSlice';
 import Channels from './Channels';
 import Messages from './Messages';
-// import useAuth from '../hooks';
 import Spinner from './Spinner';
 import socket from '../socket';
 
@@ -15,11 +14,16 @@ const MainPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const fetch = async () => {
-      await dispatch(fetchChannels());
-      await dispatch(fetchMessages());
+      try {
+        await dispatch(fetchChannels());
+        await dispatch(fetchMessages());
+      } catch (e) {
+        setLoadingState('loading');
+      }
       setLoadingState('idle');
     };
     fetch();
+
     socket.on('removeChannel', (payload) => {
       dispatch(channelActions.removeChannel(payload.id));
       dispatch(channelActions.setActiveChannel({ id: 1 }));

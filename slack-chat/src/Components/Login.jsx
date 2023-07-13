@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Formik } from 'formik';
 import {
   Form, Button, Container, Card, Row,
@@ -11,6 +11,7 @@ import useAuth from '../hooks';
 import { SignInSchema } from '../yup';
 
 const Login = () => {
+  const [disabled, setDisable] = useState(false);
   const inputRef = useRef(null);
   const auth = useAuth();
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const Login = () => {
                 }}
                 validationSchema={SignInSchema}
                 onSubmit={async (values, actions) => {
+                  setDisable(true);
                   try {
                     const response = await axios.post(routes.loginPath(), values);
                     localStorage.setItem('userId', JSON.stringify(response.data));
@@ -81,7 +83,7 @@ const Login = () => {
                       </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" disabled={disabled}>
                       {t('buttons.signIn')}
                     </Button>
                   </Form>

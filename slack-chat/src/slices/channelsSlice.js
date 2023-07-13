@@ -3,6 +3,7 @@ import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/too
 import axios from 'axios';
 import routes from '../routes';
 import getAuthHeader from '../helpers';
+import toast from '../toast';
 
 const channelsAdapter = createEntityAdapter();
 
@@ -35,6 +36,9 @@ const channelsSlice = createSlice({
       .addCase(fetchChannels.fulfilled, (state, { payload }) => {
         state.currentChannelId = payload.currentChannelId;
         channelsAdapter.addMany(state, payload.channels);
+      })
+      .addCase(fetchChannels.rejected, () => {
+        toast('error', 'fetchError');
       });
   },
 });

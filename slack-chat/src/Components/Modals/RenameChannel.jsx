@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { selectors as channelSelectors } from '../../slices/channelsSlice';
 import socket from '../../socket';
+import toast from '../../toast';
 
 const RenameChannel = (props) => {
   const [disabled, setDisable] = useState(false);
@@ -20,10 +21,10 @@ const RenameChannel = (props) => {
 
   const NameSchema = Yup.object().shape({
     body: Yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .required('Обязательное поле')
-      .notOneOf(channelsNames, 'Должно быть уникальным'),
+      .min(3)
+      .max(20)
+      .required()
+      .notOneOf(channelsNames),
   });
 
   const formik = useFormik({
@@ -32,7 +33,13 @@ const RenameChannel = (props) => {
       setDisable(true);
       socket.emit('renameChannel', { id, name: values.body }, (response) => {
         const { status } = response;
-        return status === 'ok' ? onHide() : setDisable(false);
+        if (status === 'ok') {
+          setDisable(false);
+          onHide();
+          return toast('success', 'renameChannel');
+        }
+        setDisable(false);
+        return onHide();
       });
     },
     validationSchema: NameSchema,

@@ -10,7 +10,7 @@ const Messages = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const channels = useSelector(channelSelectors.selectAll);
   const activeChannel = channels.find((channel) => channel.id === currentChannelId);
-  const { name, id } = activeChannel;
+  const { name, id } = activeChannel || {};
   const messages = useSelector(selectByChannelIds(id));
   const { t } = useTranslation();
 
