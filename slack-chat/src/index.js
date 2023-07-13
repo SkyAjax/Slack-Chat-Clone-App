@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App';
 import store from './slices/index.js';
+import './i18n';
 
 const app = async () => {
   const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { selectors as channelSelectors } from '../../slices/channelsSlice';
 import socket from '../../socket';
@@ -11,6 +12,7 @@ import socket from '../../socket';
 const RenameChannel = (props) => {
   const [disabled, setDisable] = useState(false);
   const inputRef = useRef(null);
+  const { t } = useTranslation();
   const { onHide, modalInfo } = props;
   const { id, name } = modalInfo.item;
   // const dispatch = useDispatch();
@@ -43,16 +45,12 @@ const RenameChannel = (props) => {
       inputRef.current.focus();
       inputRef.current.select();
     });
-
-  //   return () => {
-  //     socket.off('renameChannel');
-  //   };
   }, []);
 
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={() => onHide()}>
-        <Modal.Title>Rename Channel</Modal.Title>
+        <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>
       <form onSubmit={formik.handleSubmit}>
         <Modal.Body>
@@ -72,10 +70,10 @@ const RenameChannel = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" disabled={disabled} onClick={() => onHide()}>
-            Cancel
+            {t('buttons.cancel')}
           </Button>
           <Button variant="primary" type="submit" disabled={disabled}>
-            Rename
+            {t('buttons.rename')}
           </Button>
         </Modal.Footer>
       </form>

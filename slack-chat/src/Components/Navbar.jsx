@@ -1,10 +1,12 @@
 import { Button, Container, Navbar as BootstrapNavBar } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks';
 
 const Navbar = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const handleLogOut = () => {
     auth.logOut();
     navigate('/login');
@@ -18,7 +20,7 @@ const Navbar = () => {
             Hexlet Chat
           </Link>
         </BootstrapNavBar.Brand>
-        {auth.loggedIn ? <Button onClick={() => handleLogOut()}>Sign Out</Button> : null}
+        {auth.loggedIn ? <Button onClick={() => handleLogOut()}>{t('buttons.signOut')}</Button> : null}
       </Container>
     </BootstrapNavBar>
   );

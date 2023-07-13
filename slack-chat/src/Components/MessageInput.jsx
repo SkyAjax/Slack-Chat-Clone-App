@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import useAuth from '../hooks';
 import socket from '../socket';
@@ -7,6 +8,7 @@ import socket from '../socket';
 const MessageInput = () => {
   const [messageText, setMessageText] = useState('');
   const [disabledInput, setDisable] = useState(true);
+  const { t } = useTranslation();
   const channelId = useSelector((state) => state.channels.currentChannelId);
   const auth = useAuth();
   const inputEl = useRef(null);
@@ -44,13 +46,13 @@ const MessageInput = () => {
           ref={inputEl}
           name="message"
           type="text"
-          placeholder="Type message..."
+          placeholder={t('messages.messageInput')}
           value={messageText}
           onChange={handleChange}
           autoFocus
         />
         <Button variant="outline-secondary" type="submit" disabled={disabledInput}>
-          Send
+          {t('buttons.send')}
         </Button>
       </InputGroup>
     </Form>

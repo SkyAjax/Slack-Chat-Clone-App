@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 // import { useDispatch } from 'react-redux';
 // import { actions as channelActions } from '../../slices/channelsSlice';
 import socket from '../../socket';
 
 const RemoveChannel = (props) => {
   const [disabled, setDisable] = useState(false);
+  const { t } = useTranslation();
   const { onHide, modalInfo } = props;
   const { item } = modalInfo;
   // const dispatch = useDispatch();
@@ -22,17 +24,17 @@ const RemoveChannel = (props) => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={() => onHide()}>
-        <Modal.Title>Remove Channel</Modal.Title>
+        <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Are you sure?
+        {t('modals.confirmMessage')}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" disabled={disabled} onClick={() => onHide()}>
-          Cancel
+          {t('buttons.cancel')}
         </Button>
         <Button variant="danger" type="submit" disabled={disabled} onClick={() => handleRemove(item)}>
-          Remove
+          {t('buttons.remove')}
         </Button>
       </Modal.Footer>
     </Modal>

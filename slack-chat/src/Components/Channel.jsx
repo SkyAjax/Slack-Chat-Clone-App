@@ -4,6 +4,7 @@ import {
   Button, ButtonGroup, Dropdown, ListGroupItem,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { actions as channelActions } from '../slices/channelsSlice';
 import { actions as modalActions } from '../slices/modalsSlice';
 
@@ -12,6 +13,7 @@ const Channel = (props) => {
   const { channel } = props;
   const { name, id, removable } = channel;
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const btnVariant = currentChannelId === id ? 'secondary' : 'light';
 
   const handleClick = (channelObj) => {
@@ -38,8 +40,8 @@ const Channel = (props) => {
       <Dropdown.Toggle split variant={btnVariant} id="dropdown-split-basic" className="rounded-0" />
 
       <Dropdown.Menu align="end">
-        <Dropdown.Item onClick={() => handleRemoveClick()}>Delete</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleRenameClick()}>Rename</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleRemoveClick()}>{t('buttons.remove')}</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleRenameClick()}>{t('buttons.rename')}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

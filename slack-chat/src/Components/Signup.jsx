@@ -5,42 +5,31 @@ import {
   Form, Button, Container, Card, Row,
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import routes from '../routes';
 import useAuth from '../hooks';
-
-const SignupSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3, 'Минимум 3 буквы')
-    .max(20, 'Максимум 20 букв')
-    .required('Обязательное поле'),
-  password: Yup.string()
-    .required('Обязательное поле')
-    .min(6, 'Минимум 6 символов'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Пароли не совпадают')
-    .required('Обязательное поле'),
-});
+import { SignUpSchema } from '../yup';
 
 const Signup = () => {
   const inputRef = useRef(null);
   const auth = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <Container className="container-fluid h-100">
       <Row className="justify-content-center align-content-center h-100">
         <div className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow-sm">
             <Card.Body className="p-5">
-              <h1>Sign Up</h1>
+              <h1 className="mb-4">{t('buttons.signUp')}</h1>
               <Formik
                 initialValues={{
                   username: '',
                   password: '',
                   confirmPassword: '',
                 }}
-                validationSchema={SignupSchema}
+                validationSchema={SignUpSchema}
                 onSubmit={async (values, actions) => {
                   try {
                     const response = await axios.post(routes.signupPath(), values);
@@ -52,11 +41,11 @@ const Signup = () => {
                   } catch (e) {
                     if (e.response.status === 409) {
                       return actions.setErrors({
-                        username: 'Такой пользователь уже существует',
+                        username: t('errors.notUnique'),
                       });
                     }
                     actions.setErrors({
-                      username: 'Ошибка регистрации, попробуйте еще раз',
+                      username: t('errors.defaultSignUp'),
                     });
                     inputRef.current.focus();
                     inputRef.current.select();
@@ -72,56 +61,53 @@ const Signup = () => {
                     onSubmit={handleSubmit}
                   >
                     <Form.Group className="mb-3">
-                      <Form.Label>Username</Form.Label>
                       <Form.Control
                         ref={inputRef}
                         name="username"
                         type="text"
-                        placeholder="Username"
+                        placeholder={t('auth.username')}
                         value={values.username}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         isInvalid={touched.username && !!errors.username}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.username}
+                        {t(errors.username)}
                       </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                      <Form.Label>Password</Form.Label>
                       <Form.Control
                         name="password"
                         type="password"
-                        placeholder="Password"
+                        placeholder={t('auth.password')}
                         value={values.password}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         isInvalid={touched.password && !!errors.password}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.password}
+                        {t(errors.password)}
                       </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                      <Form.Label>Confirm Password</Form.Label>
                       <Form.Control
                         name="confirmPassword"
                         type="password"
-                        placeholder="Confirm Password"
+                        placeholder={t('auth.confirmPassword')}
                         value={values.repeatPassword}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         isInvalid={touched.confirmPassword && !!errors.confirmPassword}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.confirmPassword}
+                        {t(errors.confirmPassword)}
                       </Form.Control.Feedback>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
-                      Register
+                      {t('buttons.signUp')}
                     </Button>
                   </Form>
                 )}
@@ -129,10 +115,11 @@ const Signup = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                {'Already have an account? '}
+                {t('auth.signInMessage')}
                 <span>
+                  {' '}
                   <Card.Link>
-                    <Link to="/login">Sign In</Link>
+                    <Link to="/login">{t('buttons.signIn')}</Link>
                   </Card.Link>
                 </span>
               </div>

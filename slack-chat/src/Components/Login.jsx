@@ -4,36 +4,30 @@ import {
   Form, Button, Container, Card, Row,
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import routes from '../routes';
 import useAuth from '../hooks';
-
-const SignupSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, 'Минимум 2 буквы')
-    .max(50, 'Максимум 50 букв')
-    .required('Обязательное поле'),
-  password: Yup.string().required('Обязательное поле'),
-});
+import { SignInSchema } from '../yup';
 
 const Login = () => {
   const inputRef = useRef(null);
   const auth = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <Container className="container-fluid h-100">
       <Row className="justify-content-center align-content-center h-100">
         <div className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow-sm">
             <Card.Body className="p-5">
-              <h1>Sign In</h1>
+              <h1 className="mb-4">{t('buttons.signIn')}</h1>
               <Formik
                 initialValues={{
                   username: '',
                   password: '',
                 }}
-                validationSchema={SignupSchema}
+                validationSchema={SignInSchema}
                 onSubmit={async (values, actions) => {
                   try {
                     const response = await axios.post(routes.loginPath(), values);
@@ -44,7 +38,7 @@ const Login = () => {
                   } catch (e) {
                     actions.setErrors({
                       username: ' ',
-                      password: 'Неверные имя пользователя или пароль',
+                      password: t('errors.wrongCredentials'),
                     });
                     inputRef.current.focus();
                     inputRef.current.select();
@@ -58,39 +52,37 @@ const Login = () => {
 
                   <Form noValidate onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Username</Form.Label>
                       <Form.Control
                         ref={inputRef}
                         name="username"
                         type="text"
-                        placeholder="Username"
+                        placeholder={t('auth.username')}
                         value={values.username}
                         onChange={handleChange}
                         isInvalid={touched.username && !!errors.username}
                         autoFocus
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.username}
+                        {t(errors.username)}
                       </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                      <Form.Label>Password</Form.Label>
                       <Form.Control
                         name="password"
                         type="password"
-                        placeholder="Password"
+                        placeholder={t('auth.password')}
                         value={values.password}
                         onChange={handleChange}
                         isInvalid={touched.password && !!errors.password}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.password}
+                        {t(errors.password)}
                       </Form.Control.Feedback>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
-                      Submit
+                      {t('buttons.signIn')}
                     </Button>
                   </Form>
 
@@ -99,10 +91,11 @@ const Login = () => {
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                {'Don\'t have an account? '}
+                {t('auth.signUpMessage')}
                 <span>
+                  {' '}
                   <Card.Link>
-                    <Link to="/signup">Register</Link>
+                    <Link to="/signup">{t('buttons.signUp')}</Link>
                   </Card.Link>
                 </span>
               </div>

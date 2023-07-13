@@ -1,6 +1,6 @@
 // import { Row } from 'react-bootstrap';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { selectByChannelIds } from '../slices/messagesSlice';
 import { selectors as channelSelectors } from '../slices/channelsSlice';
 import Message from './Message';
@@ -12,10 +12,7 @@ const Messages = () => {
   const activeChannel = channels.find((channel) => channel.id === currentChannelId);
   const { name, id } = activeChannel;
   const messages = useSelector(selectByChannelIds(id));
-
-  useEffect(() => {
-
-  });
+  const { t } = useTranslation();
 
   return (
     <div className="d-flex flex-column h-100">
@@ -23,7 +20,7 @@ const Messages = () => {
         <p className="m-0">
           <b>{`# ${name}`}</b>
         </p>
-        <span className="text-muted">{`${messages.length} сообщений`}</span>
+        <span className="text-muted">{t('messages.messageCounter.count', { count: messages.length })}</span>
       </div>
       <div className="overflow-auto px-5">
         {messages.map((message) => (

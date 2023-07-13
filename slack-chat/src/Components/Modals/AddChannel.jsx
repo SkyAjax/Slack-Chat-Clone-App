@@ -3,6 +3,7 @@ import {
   FormControl, FormGroup, Button, Modal,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { selectors as channelSelectors } from '../../slices/channelsSlice';
@@ -11,7 +12,7 @@ import socket from '../../socket';
 const AddChannel = (props) => {
   const [disabled, setDisable] = useState(false);
   const { onHide } = props;
-  // const dispatch = useDispatch();
+  const { t } = useTranslation();
   const channelsNames = useSelector(channelSelectors.selectAll).map((channel) => channel.name);
 
   const NameSchema = Yup.object().shape({
@@ -49,7 +50,7 @@ const AddChannel = (props) => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={() => onHide()}>
-        <Modal.Title>Add Channel</Modal.Title>
+        <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
       <form onSubmit={formik.handleSubmit}>
         <Modal.Body>
@@ -69,10 +70,10 @@ const AddChannel = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" disabled={disabled} onClick={() => onHide()}>
-            Cancel
+            {t('buttons.cancel')}
           </Button>
           <Button variant="primary" type="submit" disabled={disabled}>
-            Add
+            {t('buttons.add')}
           </Button>
         </Modal.Footer>
       </form>
