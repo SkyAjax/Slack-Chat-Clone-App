@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Provider, ErrorBoundary } from '@rollbar/react';
 import {
-  BrowserRouter, Routes, Route, useLocation, Navigate,
+  Routes, Route, useLocation, Navigate, HashRouter,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,7 +30,7 @@ const App = () => (
   <Provider config={rollbarConfig}>
     <ErrorBoundary>
       <AuthProvider>
-        <BrowserRouter>
+        <HashRouter>
           <div className="d-flex flex-column h-100">
             <Modal />
             <ToastContainer />
@@ -49,7 +49,7 @@ const App = () => (
               <Route path="signup" element={<Signup />} />
             </Routes>
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </AuthProvider>
     </ErrorBoundary>
   </Provider>
