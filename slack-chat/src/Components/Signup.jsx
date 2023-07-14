@@ -65,7 +65,7 @@ const Signup = () => {
                     <Form.Group className="mb-3">
                       <Form.Control
                         ref={inputRef}
-                        name="username"
+                        name="user"
                         type="text"
                         placeholder={t('auth.username')}
                         value={values.username}
