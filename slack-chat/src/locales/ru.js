@@ -33,9 +33,9 @@ const ru = {
     },
     toast: {
       success: {
-        addChannel: 'Канал добавлен',
+        addChannel: 'Канал создан',
         renameChannel: 'Канал переименован',
-        removeChannel: 'Канал удален',
+        removeChannel: 'Канал удалён',
       },
       error: {
         fetchError: 'Ошибка соединения',
