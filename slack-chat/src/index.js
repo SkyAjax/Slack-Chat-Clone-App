@@ -2,6 +2,8 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import * as path from 'path';
+import express from 'express';
 
 import App from './App';
 import store from './slices/index.js';
@@ -15,5 +17,11 @@ const app = async () => {
     </Provider>,
   );
 };
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app();

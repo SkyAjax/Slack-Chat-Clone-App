@@ -30,7 +30,7 @@ const App = () => (
   <Provider config={rollbarConfig}>
     <ErrorBoundary>
       <AuthProvider>
-        <BrowserRouter basename="/">
+        <BrowserRouter>
           <div className="d-flex flex-column h-100">
             <Modal />
             <ToastContainer />
