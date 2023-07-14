@@ -15,7 +15,7 @@
 ## :question: How to install:
 Make sure that you have Node.js v.18 or higher. Then,
 1) Clone 
-` git clone git@github.com:SkyAjax/frontend-project-lvl12.git`
+`git clone git@github.com:SkyAjax/frontend-project-lvl12.git`
 2) Go to the project folder
 `cd frontend-project-lvl12`
 3) Install the package
