@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Provider, ErrorBoundary } from '@rollbar/react';
 import {
   BrowserRouter, Routes, Route, useLocation, Navigate,
 } from 'react-router-dom';
@@ -19,29 +21,38 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
+const rollbarConfig = {
+  accessToken: 'c247067b69fe4c52a983a7f7a67689ef',
+  environment: 'testenv',
+};
+
 const App = () => (
-  <AuthProvider>
-    <BrowserRouter>
-      <div className="d-flex flex-column h-100">
-        <Modal />
-        <ToastContainer />
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={(
-              <PrivateRoute>
-                <MainPage />
-              </PrivateRoute>
+  <Provider config={rollbarConfig}>
+    <ErrorBoundary>
+      <AuthProvider>
+        <BrowserRouter>
+          <div className="d-flex flex-column h-100">
+            <Modal />
+            <ToastContainer />
+            <Navbar />
+            <Routes>
+              <Route
+                path="/"
+                element={(
+                  <PrivateRoute>
+                    <MainPage />
+                  </PrivateRoute>
           )}
-          />
-          <Route path="*" element={<ErrorPage />} />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
-  </AuthProvider>
+              />
+              <Route path="*" element={<ErrorPage />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </AuthProvider>
+    </ErrorBoundary>
+  </Provider>
 );
 
 export default App;
