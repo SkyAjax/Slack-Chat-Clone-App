@@ -29,6 +29,7 @@ const ru = {
       renameChannel: 'Переименовать канал',
       removeChannel: 'Удалить канал',
       confirmMessage: 'Вы уверены?',
+      channelName: 'Имя канала',
     },
     toast: {
       success: {

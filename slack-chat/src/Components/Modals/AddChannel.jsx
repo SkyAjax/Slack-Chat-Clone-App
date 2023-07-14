@@ -67,6 +67,7 @@ const AddChannel = (props) => {
               name="body"
               isInvalid={!!formik.errors.body}
             />
+            <label className="visually-hidden" htmlFor="body">{t('modals.channelName')}</label>
             <FormControl.Feedback type="invalid">{formik.errors.body}</FormControl.Feedback>
           </FormGroup>
         </Modal.Body>
