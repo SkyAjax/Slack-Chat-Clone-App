@@ -2,6 +2,7 @@ const ru = {
   translation: {
     messages: {
       messageInput: 'Введите сообщение...',
+      newMessage: 'Новое сообщение',
       messageCounter: {
         count_one: '{{count}} сообщение',
         count_few: '{{count}} сообщения',
@@ -10,6 +11,7 @@ const ru = {
     },
     channels: {
       name: 'Каналы',
+      manage: 'Управление каналом',
     },
     buttons: {
       add: 'Добавить',

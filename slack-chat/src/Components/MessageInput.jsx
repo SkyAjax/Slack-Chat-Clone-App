@@ -46,6 +46,7 @@ const MessageInput = () => {
           ref={inputEl}
           name="message"
           type="text"
+          aria-label={t('messages.newMessage')}
           placeholder={t('messages.messageInput')}
           value={messageText}
           onChange={handleChange}

@@ -39,7 +39,9 @@ const Channel = (props) => {
   const dropdownBtn = (
     <Dropdown as={ButtonGroup} className="w-100 rounded-0">
       {btn}
-      <Dropdown.Toggle split variant={btnVariant} id="dropdown-split-basic" className="rounded-0" />
+      <Dropdown.Toggle split variant={btnVariant} id="dropdown-split-basic" className="rounded-0">
+        <span className="visually-hidden">{t('channels.manage')}</span>
+      </Dropdown.Toggle>
 
       <Dropdown.Menu align="end">
         <Dropdown.Item onClick={() => handleRemoveClick()}>{t('buttons.remove')}</Dropdown.Item>
