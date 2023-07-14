@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  FormControl, FormGroup, Button, Modal,
+  FormControl, FormGroup, FormLabel, Button, Modal,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -25,7 +25,6 @@ const RenameChannel = (props) => {
     onSubmit: (values) => {
       setDisable(true);
       socket.emit('renameChannel', { id, name: values.body }, (response) => {
-        console.log(response);
         const { status } = response;
         if (status === 'ok') {
           setDisable(false);
@@ -61,11 +60,11 @@ const RenameChannel = (props) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.body}
-              id="channelRenameInput"
+              id="body"
               name="body"
               isInvalid={!!formik.errors.body}
             />
-            <label className="visually-hidden" htmlFor="body">{t('modals.channelName')}</label>
+            <FormLabel className="visually-hidden" htmlFor="body">{t('modals.channelName')}</FormLabel>
             <FormControl.Feedback type="invalid">{formik.errors.body}</FormControl.Feedback>
           </FormGroup>
         </Modal.Body>

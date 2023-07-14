@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  FormControl, FormGroup, Button, Modal,
+  FormControl, FormGroup, Button, Modal, FormLabel,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -60,7 +60,7 @@ const AddChannel = (props) => {
               name="body"
               isInvalid={!!formik.errors.body}
             />
-            <label className="visually-hidden" htmlFor="body">{t('modals.channelName')}</label>
+            <FormLabel className="visually-hidden" htmlFor="body">{t('modals.channelName')}</FormLabel>
             <FormControl.Feedback type="invalid">{formik.errors.body}</FormControl.Feedback>
           </FormGroup>
         </Modal.Body>
