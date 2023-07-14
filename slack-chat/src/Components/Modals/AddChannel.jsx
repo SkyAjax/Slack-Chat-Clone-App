@@ -75,7 +75,7 @@ const AddChannel = (props) => {
             {t('buttons.cancel')}
           </Button>
           <Button variant="primary" type="submit" disabled={disabled}>
-            {t('buttons.add')}
+            {t('buttons.send')}
           </Button>
         </Modal.Footer>
       </form>

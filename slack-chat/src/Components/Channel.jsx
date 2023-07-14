@@ -13,6 +13,7 @@ const Channel = (props) => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const { channel } = props;
   const { name, id, removable } = channel;
+  console.log(name, channel);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const btnVariant = currentChannelId === id ? 'secondary' : 'light';

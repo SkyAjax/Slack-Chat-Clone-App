@@ -80,7 +80,7 @@ const RenameChannel = (props) => {
             {t('buttons.cancel')}
           </Button>
           <Button variant="primary" type="submit" disabled={disabled}>
-            {t('buttons.rename')}
+            {t('buttons.send')}
           </Button>
         </Modal.Footer>
       </form>

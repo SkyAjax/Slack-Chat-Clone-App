@@ -31,7 +31,7 @@ const MainPage = () => {
 
     socket.on('renameChannel', (payload) => {
       dispatch(channelActions.renameChannel(
-        { id: payload.id, changes: { name: [payload.name] } },
+        { id: payload.id, changes: { name: payload.name } },
       ));
     });
 

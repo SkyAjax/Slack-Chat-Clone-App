@@ -12,7 +12,7 @@ Yup.setLocale({
   },
 });
 
-const usernameSchema = Yup.string().min(3).max(20).required();
+const usernameSchema = Yup.string().min(3, i18n.t('errors.notInRange')).max(20, i18n.t('errors.notInRange')).required();
 
 export const SignInSchema = Yup.object().shape({
   username: usernameSchema,

@@ -58,7 +58,7 @@ const Login = () => {
                         ref={inputRef}
                         name="username"
                         type="text"
-                        placeholder={t('auth.username')}
+                        placeholder={t('auth.nickname')}
                         value={values.username}
                         onChange={handleChange}
                         isInvalid={touched.username && !!errors.username}
@@ -97,7 +97,7 @@ const Login = () => {
                 <span>
                   {' '}
                   <Card.Link>
-                    <Link to="/signup">{t('buttons.signUp')}</Link>
+                    <Link to="/signup">{t('auth.registration')}</Link>
                   </Card.Link>
                 </span>
               </div>
