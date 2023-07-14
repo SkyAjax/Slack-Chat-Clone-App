@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import {
   FormControl, FormGroup, Button, Modal, FormLabel,
 } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { selectors as channelSelectors } from '../../slices/channelsSlice';
+import { selectors as channelSelectors, actions as channelActions } from '../../slices/channelsSlice';
 import toast from '../../toast';
 import socket from '../../socket';
 import { getChannelNameSchema } from '../../yup';
@@ -13,6 +13,7 @@ import { getChannelNameSchema } from '../../yup';
 const AddChannel = (props) => {
   const [disabled, setDisable] = useState(false);
   const { onHide } = props;
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const channelsNames = useSelector(channelSelectors.selectAll).map((channel) => channel.name);
 
@@ -23,8 +24,9 @@ const AddChannel = (props) => {
     onSubmit: (values) => {
       setDisable(true);
       socket.emit('newChannel', { name: values.body }, (response) => {
-        const { status } = response;
+        const { data, status } = response;
         if (status === 'ok') {
+          dispatch(channelActions.setActiveChannel(data));
           setDisable(false);
           onHide();
           return toast('success', 'addChannel');

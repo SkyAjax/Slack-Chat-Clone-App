@@ -37,7 +37,6 @@ const MainPage = () => {
 
     socket.on('newChannel', (payload) => {
       dispatch(channelActions.addChannel(payload));
-      dispatch(channelActions.setActiveChannel(payload));
     });
 
     socket.on('newMessage', (payload) => {
