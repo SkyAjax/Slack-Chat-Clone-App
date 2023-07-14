@@ -34,8 +34,10 @@ const Signup = () => {
                 onSubmit={async (values, actions) => {
                   setDisable(true);
                   try {
-                    const response = await axios.post(routes.signupPath(), values);
-                    console.log(response);
+                    const response = await axios.post(
+                      routes.signupPath(),
+                      { username: values.username, password: values.password },
+                    );
                     localStorage.setItem('userId', JSON.stringify(response.data));
                     auth.setUsername(response.data.username);
                     auth.logIn();
@@ -62,7 +64,8 @@ const Signup = () => {
                     noValidate
                     onSubmit={handleSubmit}
                   >
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="username">
+                      <Form.Label>{t('auth.username')}</Form.Label>
                       <Form.Control
                         ref={inputRef}
                         name="username"
@@ -79,7 +82,8 @@ const Signup = () => {
                       </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="password">
+                      <Form.Label>{t('auth.password')}</Form.Label>
                       <Form.Control
                         name="password"
                         type="password"
@@ -94,7 +98,8 @@ const Signup = () => {
                       </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="confirmPassword">
+                      <Form.Label>{t('auth.confirmPassword')}</Form.Label>
                       <Form.Control
                         name="confirmPassword"
                         type="password"
