@@ -5,10 +5,10 @@ import {
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { selectors as channelSelectors } from '../../slices/channelsSlice';
 import toast from '../../toast';
 import socket from '../../socket';
+import { getChannelNameSchema } from '../../yup';
 
 const AddChannel = (props) => {
   const [disabled, setDisable] = useState(false);
@@ -16,27 +16,20 @@ const AddChannel = (props) => {
   const { t } = useTranslation();
   const channelsNames = useSelector(channelSelectors.selectAll).map((channel) => channel.name);
 
-  const NameSchema = Yup.object().shape({
-    body: Yup.string()
-      .min(3)
-      .max(20)
-      .required()
-      .notOneOf(channelsNames),
-  });
+  const NameSchema = getChannelNameSchema(channelsNames);
 
   const formik = useFormik({
     initialValues: { body: '' },
     onSubmit: (values) => {
+      setDisable(true);
       socket.emit('newChannel', { name: values.body }, (response) => {
         const { status } = response;
-        setDisable(true);
         if (status === 'ok') {
           setDisable(false);
           onHide();
           return toast('success', 'addChannel');
         }
-        setDisable(false);
-        return onHide();
+        return setDisable(false);
       });
     },
     validationSchema: NameSchema,

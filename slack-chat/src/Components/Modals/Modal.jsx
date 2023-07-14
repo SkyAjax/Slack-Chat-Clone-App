@@ -13,7 +13,6 @@ const renderModal = ({ modalInfo, hideModal }) => {
 };
 
 const Modal = () => {
-  console.log('test');
   const modalInfo = useSelector((state) => state.modals);
   const dispatch = useDispatch();
   const hideModal = () => {

@@ -20,8 +20,7 @@ const RemoveChannel = (props) => {
         onHide();
         return toast('success', 'removeChannel');
       }
-      setDisable(false);
-      return onHide();
+      return setDisable(false);
     });
   };
 

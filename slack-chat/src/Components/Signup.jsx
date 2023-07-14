@@ -45,7 +45,7 @@ const Signup = () => {
                   } catch (e) {
                     if (e.response.status === 409) {
                       return actions.setErrors({
-                        username: t('errors.notUnique'),
+                        username: t('errors.notUniqueUser'),
                       });
                     }
                     actions.setErrors({

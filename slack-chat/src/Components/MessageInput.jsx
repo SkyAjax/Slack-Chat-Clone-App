@@ -18,7 +18,6 @@ const MessageInput = () => {
   }, [messageText]);
 
   const handleSubmit = (e) => {
-    console.log(socket);
     e.preventDefault();
     setDisable(true);
     const { username } = auth;

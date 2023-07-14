@@ -5,6 +5,7 @@ Yup.setLocale({
   mixed: {
     required: i18n.t('errors.required'),
     oneOf: i18n.t('errors.notTheSame'),
+    notOneOf: i18n.t('errors.notUniqueChannel'),
   },
   string: {
     min: ({ min }) => i18n.t('errors.fieldTooShort.symbol', { count: min }),
@@ -12,7 +13,10 @@ Yup.setLocale({
   },
 });
 
-const usernameSchema = Yup.string().min(3, i18n.t('errors.notInRange')).max(20, i18n.t('errors.notInRange')).required();
+const usernameSchema = Yup.string()
+  .min(3, i18n.t('errors.notInRange'))
+  .max(20, i18n.t('errors.notInRange'))
+  .required();
 
 export const SignInSchema = Yup.object().shape({
   username: usernameSchema,
@@ -27,4 +31,12 @@ export const SignUpSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')])
     .required(),
+});
+
+export const getChannelNameSchema = (channels) => Yup.object().shape({
+  body: Yup.string()
+    .min(3)
+    .max(20)
+    .required()
+    .notOneOf(channels),
 });

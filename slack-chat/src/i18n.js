@@ -12,7 +12,7 @@ const options = {
   },
 };
 
-i18n
+await i18n
   .use(initReactI18next)
   .init(options);
 

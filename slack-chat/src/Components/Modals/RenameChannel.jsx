@@ -5,10 +5,10 @@ import {
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 import { selectors as channelSelectors } from '../../slices/channelsSlice';
 import socket from '../../socket';
 import toast from '../../toast';
+import { getChannelNameSchema } from '../../yup';
 
 const RenameChannel = (props) => {
   const [disabled, setDisable] = useState(false);
@@ -16,30 +16,23 @@ const RenameChannel = (props) => {
   const { t } = useTranslation();
   const { onHide, modalInfo } = props;
   const { id, name } = modalInfo.item;
-  // const dispatch = useDispatch();
   const channelsNames = useSelector(channelSelectors.selectAll).map((channel) => channel.name);
 
-  const NameSchema = Yup.object().shape({
-    body: Yup.string()
-      .min(3)
-      .max(20)
-      .required()
-      .notOneOf(channelsNames),
-  });
+  const NameSchema = getChannelNameSchema(channelsNames);
 
   const formik = useFormik({
     initialValues: { body: name },
     onSubmit: (values) => {
       setDisable(true);
       socket.emit('renameChannel', { id, name: values.body }, (response) => {
+        console.log(response);
         const { status } = response;
         if (status === 'ok') {
           setDisable(false);
           onHide();
           return toast('success', 'renameChannel');
         }
-        setDisable(false);
-        return onHide();
+        return setDisable(false);
       });
     },
     validationSchema: NameSchema,
