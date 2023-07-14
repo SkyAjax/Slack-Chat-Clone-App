@@ -53,7 +53,8 @@ const Login = () => {
                 }) => (
 
                   <Form noValidate onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="username">
+                      <Form.Label>{t('auth.nickname')}</Form.Label>
                       <Form.Control
                         ref={inputRef}
                         name="username"
@@ -69,7 +70,8 @@ const Login = () => {
                       </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="password">
+                      <Form.Label>{t('auth.password')}</Form.Label>
                       <Form.Control
                         name="password"
                         type="password"
