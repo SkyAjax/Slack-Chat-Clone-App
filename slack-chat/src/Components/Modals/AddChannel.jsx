@@ -56,7 +56,7 @@ const AddChannel = (props) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.body}
-              id="channelNameInput"
+              id="body"
               name="body"
               isInvalid={!!formik.errors.body}
             />
