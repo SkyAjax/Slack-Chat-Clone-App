@@ -1,5 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/SkyAjax/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/SkyAjax/frontend-project-12/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b859ce39f28e540f03ab/maintainability)](https://codeclimate.com/github/SkyAjax/frontend-project-12/maintainability)
 
 # :open_book: Project description:
 :pencil2: Slack-chat is simlified clone of Slack communication service. It allows you to create new channels, add new users and chat with them.
