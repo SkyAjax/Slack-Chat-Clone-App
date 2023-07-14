@@ -38,6 +38,7 @@ const Login = () => {
                     auth.logIn();
                     navigate('/');
                   } catch (e) {
+                    setDisable(false);
                     actions.setErrors({
                       username: ' ',
                       password: t('errors.wrongCredentials'),

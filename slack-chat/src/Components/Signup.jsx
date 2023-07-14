@@ -43,6 +43,7 @@ const Signup = () => {
                     auth.logIn();
                     navigate('/');
                   } catch (e) {
+                    setDisable(false);
                     if (e.response.status === 409) {
                       return actions.setErrors({
                         username: t('errors.notUniqueUser'),
