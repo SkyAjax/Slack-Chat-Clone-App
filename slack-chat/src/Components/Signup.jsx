@@ -65,13 +65,14 @@ const Signup = () => {
                     <Form.Group className="mb-3">
                       <Form.Control
                         ref={inputRef}
-                        name="user"
+                        name="username"
                         type="text"
                         placeholder={t('auth.username')}
                         value={values.username}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         isInvalid={touched.username && !!errors.username}
+                        autoFocus
                       />
                       <Form.Control.Feedback type="invalid">
                         {t(errors.username)}
