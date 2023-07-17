@@ -37,7 +37,7 @@ const ru = {
         renameChannel: 'Канал переименован',
         removeChannel: 'Канал удалён',
       },
-      error: {
+      errors: {
         fetchError: 'Ошибка соединения',
       },
     },
@@ -52,7 +52,8 @@ const ru = {
     },
     errors: {
       fieldTooShort: {
-        symbol_few: 'Не менее {{count}} символа',
+        symbol_one: 'Не менее {{count}} символа',
+        symbol_few: 'Не менее {{count}} символов',
         symbol_many: 'Не менее {{count}} символов',
       },
       fieldTooLong: {

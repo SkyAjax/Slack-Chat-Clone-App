@@ -1,6 +1,3 @@
-// import { useDispatch } from 'react-redux';
-import { io } from 'socket.io-client';
+// // import { useDispatch } from 'react-redux';
 
-const socket = io();
-
-export default socket;
+// export default socket;

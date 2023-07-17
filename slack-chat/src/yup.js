@@ -1,42 +1,23 @@
 import * as Yup from 'yup';
-import i18n from './i18n';
 
 Yup.setLocale({
   mixed: {
-    required: i18n.t('errors.required'),
-    oneOf: i18n.t('errors.notTheSame'),
-    notOneOf: i18n.t('errors.notUniqueChannel'),
+    required: 'errors.required',
+    oneOf: 'errors.notTheSame',
+    notOneOf: 'errors.notUniqueChannel',
   },
   string: {
-    min: ({ min }) => i18n.t('errors.fieldTooShort.symbol', { count: min }),
-    max: ({ max }) => i18n.t('errors.fieldTooLong.symbol', { count: max }),
+    min: 'errors.notInRange',
+    max: 'errors.notInRange',
   },
 });
 
-const usernameSchema = Yup.string()
-  .min(3, i18n.t('errors.notInRange'))
-  .max(20, i18n.t('errors.notInRange'))
-  .required();
-
-export const SignInSchema = Yup.object().shape({
-  username: usernameSchema,
-  password: Yup.string().required(),
-});
-
-export const SignUpSchema = Yup.object().shape({
-  username: usernameSchema,
-  password: Yup.string()
-    .required()
-    .min(6),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')])
-    .required(),
-});
-
-export const getChannelNameSchema = (channels) => Yup.object().shape({
+const getChannelNameSchema = (channels) => Yup.object().shape({
   body: Yup.string()
     .min(3)
     .max(20)
     .required()
     .notOneOf(channels),
 });
+
+export default getChannelNameSchema;

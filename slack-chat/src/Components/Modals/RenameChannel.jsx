@@ -5,14 +5,15 @@ import {
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { useApi } from '../../hooks/index';
 import { selectors as channelSelectors } from '../../slices/channelsSlice';
-import socket from '../../socket';
-import toast from '../../toast';
-import { getChannelNameSchema } from '../../yup';
+import getChannelNameSchema from '../../yup';
 
 const RenameChannel = (props) => {
   const [disabled, setDisable] = useState(false);
   const inputRef = useRef(null);
+  const api = useApi();
   const { t } = useTranslation();
   const { onHide, modalInfo } = props;
   const { id, name } = modalInfo.item;
@@ -24,12 +25,12 @@ const RenameChannel = (props) => {
     initialValues: { body: name },
     onSubmit: (values) => {
       setDisable(true);
-      socket.emit('renameChannel', { id, name: values.body }, (response) => {
+      api.renameChannel({ id, name: values.body }, (response) => {
         const { status } = response;
         if (status === 'ok') {
           setDisable(false);
           onHide();
-          return toast('success', 'renameChannel');
+          return toast.success(t('toast.success.renameChannel'));
         }
         return setDisable(false);
       });
@@ -65,7 +66,7 @@ const RenameChannel = (props) => {
               isInvalid={!!formik.errors.body}
             />
             <FormLabel className="visually-hidden" htmlFor="body">{t('modals.channelName')}</FormLabel>
-            <FormControl.Feedback type="invalid">{formik.errors.body}</FormControl.Feedback>
+            <FormControl.Feedback type="invalid">{t(formik.errors.body)}</FormControl.Feedback>
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>

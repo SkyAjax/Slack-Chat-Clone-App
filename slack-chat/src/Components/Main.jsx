@@ -1,55 +1,40 @@
-import React, { useEffect, useState } from 'react';//
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
-import { fetchChannels, actions as channelActions } from '../slices/channelsSlice';
-import { fetchMessages, actions as messageActions } from '../slices/messagesSlice';
+import { actions as channelActions } from '../slices/channelsSlice';
+import { actions as messageActions } from '../slices/messagesSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 import Spinner from './Spinner';
-import socket from '../socket';
+import getAuthHeader from '../helpers';
+import routes from '../routes';
 
 const MainPage = () => {
   const [loadingState, setLoadingState] = useState('loading');
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   useEffect(() => {
     const fetch = async () => {
       try {
-        await dispatch(fetchChannels());
-        await dispatch(fetchMessages());
+        const request = getAuthHeader();
+        const response = await axios.get(routes.usersPath(), { headers: request });
+        const { data } = response;
+        const { channels, messages, currentChannelId } = data;
+        dispatch(channelActions.addChannels(channels));
+        dispatch(messageActions.addMessages(messages));
+        dispatch(channelActions.setActiveChannel({ id: currentChannelId }));
+        setLoadingState('idle');
       } catch (e) {
         setLoadingState('loading');
+        toast.error(t('toast.errors.fetchError'));
       }
-      setLoadingState('idle');
     };
     fetch();
-
-    socket.on('removeChannel', (payload) => {
-      dispatch(channelActions.removeChannel(payload.id));
-      dispatch(channelActions.setActiveChannel({ id: 1 }));
-    });
-
-    socket.on('renameChannel', (payload) => {
-      dispatch(channelActions.renameChannel(
-        { id: payload.id, changes: { name: payload.name } },
-      ));
-    });
-
-    socket.on('newChannel', (payload) => {
-      dispatch(channelActions.addChannel(payload));
-    });
-
-    socket.on('newMessage', (payload) => {
-      dispatch(messageActions.addMessage(payload));
-    });
-
-    return () => {
-      socket.off('removeChannel');
-      socket.off('renameChannel');
-      socket.off('newChannel');
-      socket.off('newMessage');
-    };
-  }, [dispatch]);
+  }, [dispatch, t]);
 
   return (
     loadingState === 'loading' ? <Spinner />

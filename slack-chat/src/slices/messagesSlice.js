@@ -4,22 +4,9 @@ import
   createSlice,
   createEntityAdapter,
   createSelector,
-  createAsyncThunk,
 } from '@reduxjs/toolkit';
-import axios from 'axios';
-import routes from '../routes';
-import getAuthHeader from '../helpers';
-import { actions as channelActions } from './channelsSlice';
-import toast from '../toast';
 
-export const fetchMessages = createAsyncThunk(
-  'messages/fetchMessages',
-  async () => {
-    const request = getAuthHeader();
-    const response = await axios.get(routes.usersPath(), { headers: request });
-    return response.data.messages;
-  },
-);
+import { actions as channelActions } from './channelsSlice';
 
 const messageAdapter = createEntityAdapter();
 
@@ -35,12 +22,6 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     const { removeChannel } = channelActions;
     builder
-      .addCase(fetchMessages.fulfilled, (state, action) => {
-        messageAdapter.addMany(state, action);
-      })
-      .addCase(fetchMessages.rejected, () => {
-        toast('error', 'fetchError');
-      })
       .addCase(removeChannel, (state, { payload }) => {
         const restEntities = Object.values(state.entities)
           .filter((message) => message.channelId !== payload);

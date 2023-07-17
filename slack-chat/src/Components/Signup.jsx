@@ -7,9 +7,9 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import * as Yup from 'yup';
 import routes from '../routes';
-import useAuth from '../hooks';
-import { SignUpSchema } from '../yup';
+import { useAuth } from '../hooks';
 
 const Signup = () => {
   const [disabled, setDisable] = useState(false);
@@ -17,6 +17,20 @@ const Signup = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const SignUpSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, t('errors.notInRange'))
+      .max(20, t('errors.notInRange'))
+      .required(),
+    password: Yup.string()
+      .required()
+      .min(6),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password')])
+      .required(),
+  });
+
   return (
     <Container className="container-fluid h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -128,7 +142,7 @@ const Signup = () => {
                 <span>
                   {' '}
                   <Card.Link>
-                    <Link to="/login">{t('buttons.signIn')}</Link>
+                    <Link to={routes.loginPagePath()}>{t('buttons.signIn')}</Link>
                   </Card.Link>
                 </span>
               </div>

@@ -2,7 +2,12 @@
 [![Actions Status](https://github.com/SkyAjax/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/SkyAjax/frontend-project-12/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b859ce39f28e540f03ab/maintainability)](https://codeclimate.com/github/SkyAjax/frontend-project-12/maintainability)
 
-# :open_book: Project description:
+# :fire: Slack Chat Clone App:
+![Screenshot preview](slack-chat/src/images/signup_window.png?raw=true "Sign Up Window")
+![Screenshot preview](slack-chat/src/images/main_window.png?raw=true "Main Window")
+
+
+## :open_book: Project description:
 :pencil2: Slack-chat is simplified clone of Slack communication service. It allows you to create new channels, delete and rename them, add new users and chat with them.
 
 :magic_wand: The design is pretty simple, you can login, create new user (no email required) and chat in any channel you want.

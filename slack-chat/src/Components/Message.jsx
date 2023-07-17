@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import profanityFilter from '../profanityFilter';
+import * as filter from 'leo-profanity';
 
 const Message = (props) => {
   const { message } = props;
@@ -13,7 +13,7 @@ const Message = (props) => {
   return (
     <div ref={divRef} className="text-break mb-2">
       <b>{`${username}: `}</b>
-      <span>{profanityFilter(body)}</span>
+      <span>{filter.clean(body)}</span>
     </div>
   );
 };

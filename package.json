@@ -20,8 +20,6 @@
   },
   "homepage": "https://github.com/SkyAjax/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.6",
-    "@rollbar/react": "^0.11.2",
-    "rollbar": "^2.26.2"
+    "@hexlet/chat-server": "^1.1.6"
   }
 }

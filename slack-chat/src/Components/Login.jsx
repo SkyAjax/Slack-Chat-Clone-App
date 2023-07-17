@@ -6,9 +6,9 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import * as Yup from 'yup';
 import routes from '../routes';
-import useAuth from '../hooks';
-import { SignInSchema } from '../yup';
+import { useAuth } from '../hooks';
 
 const Login = () => {
   const [disabled, setDisable] = useState(false);
@@ -16,6 +16,15 @@ const Login = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const SignInSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, t('errors.notInRange'))
+      .max(20, t('errors.notInRange'))
+      .required(),
+    password: Yup.string().required(),
+  });
+
   return (
     <Container className="container-fluid h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -33,10 +42,8 @@ const Login = () => {
                   setDisable(true);
                   try {
                     const response = await axios.post(routes.loginPath(), values);
-                    localStorage.setItem('userId', JSON.stringify(response.data));
-                    auth.setUsername(response.data.username);
-                    auth.logIn();
-                    navigate('/');
+                    auth.logIn(response.data);
+                    navigate(routes.mainPagePath());
                   } catch (e) {
                     setDisable(false);
                     actions.setErrors({
@@ -100,7 +107,7 @@ const Login = () => {
                 <span>
                   {' '}
                   <Card.Link>
-                    <Link to="/signup">{t('auth.registration')}</Link>
+                    <Link to={routes.signupPagePath()}>{t('auth.registration')}</Link>
                   </Card.Link>
                 </span>
               </div>

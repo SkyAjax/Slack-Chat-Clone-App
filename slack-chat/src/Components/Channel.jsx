@@ -1,5 +1,5 @@
 // import React from 'react';
-
+import * as filter from 'leo-profanity';
 import {
   Button, ButtonGroup, Dropdown, ListGroupItem,
 } from 'react-bootstrap';
@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { actions as channelActions } from '../slices/channelsSlice';
 import { actions as modalActions } from '../slices/modalsSlice';
-import profanityFilter from '../profanityFilter';
 
 const Channel = (props) => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
@@ -29,29 +28,27 @@ const Channel = (props) => {
     dispatch(modalActions.setModal({ type: 'renamingChannel', item: channel }));
   };
 
-  const btn = (
-    <Button variant={btnVariant} className="w-100 rounded-0 text-start btn shadow-none text-truncate" onClick={() => handleClick(channel)}>
-      {`# ${profanityFilter(name)}`}
-    </Button>
-  );
-
-  const dropdownBtn = (
-    <Dropdown as={ButtonGroup} className="w-100 rounded-0">
-      {btn}
-      <Dropdown.Toggle split variant={btnVariant} id="dropdown-split-basic" className="rounded-0">
-        <span className="visually-hidden">{t('channels.manage')}</span>
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu align="end">
-        <Dropdown.Item onClick={() => handleRemoveClick()}>{t('buttons.remove')}</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleRenameClick()}>{t('buttons.rename')}</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
-
   return (
     <ListGroupItem className="mx-2 p-0">
-      {removable ? dropdownBtn : btn}
+      {removable ? (
+        <Dropdown as={ButtonGroup} className="w-100 rounded-0">
+          <Button variant={btnVariant} className="w-100 rounded-0 text-start btn shadow-none text-truncate" onClick={() => handleClick(channel)}>
+            {`# ${filter.clean(name)}`}
+          </Button>
+          <Dropdown.Toggle split variant={btnVariant} id="dropdown-split-basic" className="rounded-0">
+            <span className="visually-hidden">{t('channels.manage')}</span>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu align="end">
+            <Dropdown.Item onClick={() => handleRemoveClick()}>{t('buttons.remove')}</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleRenameClick()}>{t('buttons.rename')}</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      ) : (
+        <Button variant={btnVariant} className="w-100 rounded-0 text-start btn shadow-none text-truncate" onClick={() => handleClick(channel)}>
+          {`# ${filter.clean(name)}`}
+        </Button>
+      )}
     </ListGroupItem>
   );
 };
