@@ -25,7 +25,7 @@ const Signup = () => {
       .required(),
     password: Yup.string()
       .required()
-      .min(6),
+      .min(6, t('errors.fieldTooShort.symbol', { count: 6 })),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password')])
       .required(),
