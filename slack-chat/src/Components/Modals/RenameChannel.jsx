@@ -19,7 +19,7 @@ const RenameChannel = (props) => {
   const { id, name } = modalInfo.item;
   const channelsNames = useSelector(channelSelectors.selectAll).map((channel) => channel.name);
 
-  const NameSchema = getChannelNameSchema(channelsNames);
+  const nameSchema = getChannelNameSchema(channelsNames);
 
   const formik = useFormik({
     initialValues: { body: name },
@@ -35,7 +35,7 @@ const RenameChannel = (props) => {
         return setDisable(false);
       });
     },
-    validationSchema: NameSchema,
+    validationSchema: nameSchema,
     validateOnChange: false,
     validateOnBlur: false,
   });

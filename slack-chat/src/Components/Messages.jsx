@@ -1,4 +1,3 @@
-// import { Row } from 'react-bootstrap';
 import * as filter from 'leo-profanity';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';

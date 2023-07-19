@@ -4,11 +4,11 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { selectors as channelSelectors, actions as channelActions } from '../../slices/channelsSlice';
 import { useApi } from '../../hooks/index';
+import getChannelNameSchema from '../../yup';
 
 const AddChannel = (props) => {
   const [disabled, setDisable] = useState(false);
@@ -19,13 +19,7 @@ const AddChannel = (props) => {
 
   const channelsNames = useSelector(channelSelectors.selectAll).map((channel) => channel.name);
 
-  const NameSchema = Yup.object().shape({
-    body: Yup.string()
-      .min(3)
-      .max(20, t('errors.fieldTooShort.symbol', { count: 20 }))
-      .required()
-      .notOneOf(channelsNames),
-  });
+  const nameSchema = getChannelNameSchema(channelsNames);
 
   const formik = useFormik({
     initialValues: { body: '' },
@@ -42,7 +36,7 @@ const AddChannel = (props) => {
         return setDisable(false);
       });
     },
-    validationSchema: NameSchema,
+    validationSchema: nameSchema,
     validateOnChange: false,
     validateOnBlur: true,
     validateOnMount: false,

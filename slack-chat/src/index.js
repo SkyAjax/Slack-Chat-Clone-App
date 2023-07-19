@@ -41,7 +41,9 @@ const app = async () => {
 
   socket.on('removeChannel', (payload) => {
     store.dispatch(channelActions.removeChannel(payload.id));
-    store.dispatch(channelActions.setActiveChannel({ id: 1 }));
+    const { channels: { currentChannelId } } = store.getState();
+    return currentChannelId === payload.id
+      ? store.dispatch(channelActions.setActiveChannel({ id: 1 })) : null;
   });
 
   socket.on('renameChannel', (payload) => {

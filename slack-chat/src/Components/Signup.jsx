@@ -18,14 +18,15 @@ const Signup = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const SignUpSchema = Yup.object().shape({
+  const minPasswordLength = 6;
+  const signUpSchema = Yup.object().shape({
     username: Yup.string()
-      .min(3, t('errors.notInRange'))
-      .max(20, t('errors.notInRange'))
+      .min(3)
+      .max(20)
       .required(),
     password: Yup.string()
       .required()
-      .min(6, t('errors.fieldTooShort.symbol', { count: 6 })),
+      .min(minPasswordLength, 'errors.fieldTooShort.symbol'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password')])
       .required(),
@@ -44,7 +45,7 @@ const Signup = () => {
                   password: '',
                   confirmPassword: '',
                 }}
-                validationSchema={SignUpSchema}
+                validationSchema={signUpSchema}
                 onSubmit={async (values, actions) => {
                   setDisable(true);
                   try {
@@ -52,10 +53,9 @@ const Signup = () => {
                       routes.signupPath(),
                       { username: values.username, password: values.password },
                     );
-                    localStorage.setItem('userId', JSON.stringify(response.data));
                     auth.setUsername(response.data.username);
-                    auth.logIn();
-                    navigate('/');
+                    auth.logIn(response.data);
+                    navigate(routes.mainPagePath());
                   } catch (e) {
                     setDisable(false);
                     if (e.response.status === 409) {
@@ -109,7 +109,7 @@ const Signup = () => {
                         isInvalid={touched.password && !!errors.password}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {t(errors.password)}
+                        {t(errors.password, { count: minPasswordLength })}
                       </Form.Control.Feedback>
                     </Form.Group>
 

@@ -12,17 +12,18 @@ import AuthProvider from './Components/Auth';
 import Navbar from './Components/Navbar';
 import Modal from './Components/Modals/Modal';
 import Signup from './Components/Signup';
+import routes from './routes';
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
   const userId = localStorage.getItem('userId');
   return (
-    userId ? children : <Navigate to="/login" state={{ from: location }} />
+    userId ? children : <Navigate to={routes.loginPagePath()} state={{ from: location }} />
   );
 };
 
 const rollbarConfig = {
-  accessToken: 'c247067b69fe4c52a983a7f7a67689ef',
+  accessToken: process.env.ROLLBAR_TESTENV_TOKEN,
   environment: 'testenv',
 };
 

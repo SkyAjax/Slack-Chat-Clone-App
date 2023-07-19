@@ -17,10 +17,10 @@ const Login = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const SignInSchema = Yup.object().shape({
+  const signInSchema = Yup.object().shape({
     username: Yup.string()
-      .min(3, t('errors.notInRange'))
-      .max(20, t('errors.notInRange'))
+      .min(3)
+      .max(20)
       .required(),
     password: Yup.string().required(),
   });
@@ -37,7 +37,7 @@ const Login = () => {
                   username: '',
                   password: '',
                 }}
-                validationSchema={SignInSchema}
+                validationSchema={signInSchema}
                 onSubmit={async (values, actions) => {
                   setDisable(true);
                   try {

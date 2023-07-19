@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import { actions as channelActions } from '../slices/channelsSlice';
-import { actions as messageActions } from '../slices/messagesSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 import Spinner from './Spinner';
@@ -23,10 +22,7 @@ const MainPage = () => {
         const request = getAuthHeader();
         const response = await axios.get(routes.usersPath(), { headers: request });
         const { data } = response;
-        const { channels, messages, currentChannelId } = data;
-        dispatch(channelActions.addChannels(channels));
-        dispatch(messageActions.addMessages(messages));
-        dispatch(channelActions.setActiveChannel({ id: currentChannelId }));
+        dispatch(channelActions.setInitial(data));
         setLoadingState('idle');
       } catch (e) {
         setLoadingState('loading');
