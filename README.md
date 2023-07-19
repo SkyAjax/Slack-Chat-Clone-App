@@ -4,9 +4,7 @@
 
 # :fire: Slack Chat Clone App:
 ![Screenshot preview](https://github.com/SkyAjax/frontend-project-12/assets/45942344/f975da9f-6740-47a2-aaf9-687e5c194f0a "Sign Up Window")
-![Uploading main_window.png…]()
-![Screenshot preview](\\wsl.localhost\Ubuntu\home\skyhook\main_window.png?raw=true "Main Window")
-
+![Screenshot preview](https://github.com/SkyAjax/frontend-project-12/assets/45942344/4bbda2f3-7821-4d95-b09c-00dab0c2c2d9 "Main Window")
 
 ## :open_book: Project description:
 :pencil2: Slack-chat is simplified clone of Slack communication service. It allows you to create new channels, delete and rename them, add new users and chat with them.
