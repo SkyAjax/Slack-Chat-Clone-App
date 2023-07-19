@@ -3,7 +3,9 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/b859ce39f28e540f03ab/maintainability)](https://codeclimate.com/github/SkyAjax/frontend-project-12/maintainability)
 
 # :fire: Slack Chat Clone App:
-![Screenshot preview](\\wsl.localhost\Ubuntu\home\skyhook\main_window.png?raw=true "Sign Up Window") ![Screenshot preview](\\wsl.localhost\Ubuntu\home\skyhook\main_window.png?raw=true "Main Window")
+![Screenshot preview](https://github.com/SkyAjax/frontend-project-12/assets/45942344/f975da9f-6740-47a2-aaf9-687e5c194f0a "Sign Up Window")
+![Uploading main_window.png…]()
+![Screenshot preview](\\wsl.localhost\Ubuntu\home\skyhook\main_window.png?raw=true "Main Window")
 
 
 ## :open_book: Project description:
