@@ -23,7 +23,7 @@ const PrivateRoute = ({ children }) => {
 };
 
 const rollbarConfig = {
-  accessToken: process.env.ROLLBAR_TESTENV_TOKEN,
+  accessToken: process.env.REACT_APP_ROLLBAR_TESTENV_TOKEN,
   environment: 'testenv',
 };
 
