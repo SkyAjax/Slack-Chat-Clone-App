@@ -23,17 +23,16 @@ const RenameChannel = (props) => {
 
   const formik = useFormik({
     initialValues: { body: name },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setDisable(true);
-      api.renameChannel({ id, name: values.body }, (response) => {
-        const { status } = response;
-        if (status === 'ok') {
-          setDisable(false);
-          onHide();
-          return toast.success(t('toast.success.renameChannel'));
-        }
+      try {
+        await api.renameChannel({ id, name: values.body });
+        setDisable(false);
+        onHide();
+        return toast.success(t('toast.success.renameChannel'));
+      } catch (e) {
         return setDisable(false);
-      });
+      }
     },
     validationSchema: nameSchema,
     validateOnChange: false,

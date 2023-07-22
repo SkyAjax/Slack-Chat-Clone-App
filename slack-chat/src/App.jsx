@@ -5,13 +5,13 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Login from './Components/Login';
-import ErrorPage from './Components/Error';
-import MainPage from './Components/Main';
-import AuthProvider from './Components/Auth';
-import Navbar from './Components/Navbar';
-import Modal from './Components/Modals/Modal';
-import Signup from './Components/Signup';
+import Login from './components/Login';
+import ErrorPage from './components/Error';
+import MainPage from './components/Main';
+import AuthProvider from './components/Auth';
+import Navbar from './components/Navbar';
+import Modal from './components/modals/Modal';
+import Signup from './components/Signup';
 import routes from './routes';
 
 const PrivateRoute = ({ children }) => {

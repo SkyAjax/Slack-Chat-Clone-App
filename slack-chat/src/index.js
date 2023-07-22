@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,11 +19,25 @@ const app = async () => {
   filter.add(filter.getDictionary('ru'));
   const socket = io();
 
+  const handleSocketEmit = (type, values) => new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject();
+    }, 5000);
+    socket.volatile.emit(type, values, (response) => {
+      const { status, data } = response;
+      if (status === 'ok') {
+        clearTimeout(timer);
+        return resolve(data);
+      }
+      reject();
+    });
+  });
+
   const api = {
-    newMessage: (values, cb) => socket.volatile.emit('newMessage', values, (response) => cb(response)),
-    newChannel: (values, cb) => socket.volatile.emit('newChannel', values, (response) => cb(response)),
-    renameChannel: (values, cb) => socket.volatile.emit('renameChannel', values, (response) => cb(response)),
-    removeChannel: (values, cb) => socket.volatile.emit('removeChannel', values, (response) => cb(response)),
+    newMessage: (values) => handleSocketEmit('newMessage', values),
+    newChannel: (values) => handleSocketEmit('newChannel', values),
+    renameChannel: (values) => handleSocketEmit('renameChannel', values),
+    removeChannel: (values) => handleSocketEmit('removeChannel', values),
   };
 
   const i18n = i18next.createInstance();

@@ -19,8 +19,8 @@ const MainPage = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const request = getAuthHeader();
-        const response = await axios.get(routes.usersPath(), { headers: request });
+        const header = getAuthHeader();
+        const response = await axios.get(routes.usersPath(), { headers: header });
         const { data } = response;
         dispatch(channelActions.setInitial(data));
         setLoadingState('idle');

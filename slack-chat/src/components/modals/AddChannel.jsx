@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { useEffect, useRef, useState } from 'react';
 import {
   FormControl, FormGroup, Button, Modal, FormLabel,
@@ -23,18 +24,17 @@ const AddChannel = (props) => {
 
   const formik = useFormik({
     initialValues: { body: '' },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setDisable(true);
-      api.newChannel({ name: values.body }, (response) => {
-        const { data, status } = response;
-        if (status === 'ok') {
-          dispatch(channelActions.setActiveChannel(data));
-          setDisable(false);
-          onHide();
-          return toast.success(t('toast.success.addChannel'));
-        }
-        return setDisable(false);
-      });
+      try {
+        const response = await api.newChannel({ name: values.body });
+        dispatch(channelActions.setActiveChannel(response));
+        setDisable(false);
+        onHide();
+        toast.success(t('toast.success.addChannel'));
+      } catch (e) {
+        setDisable(false);
+      }
     },
     validationSchema: nameSchema,
     validateOnChange: false,

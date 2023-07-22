@@ -1,4 +1,3 @@
-// import React from 'react';
 import * as filter from 'leo-profanity';
 import {
   Button, ButtonGroup, Dropdown, ListGroupItem,

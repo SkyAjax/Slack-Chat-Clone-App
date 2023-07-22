@@ -11,18 +11,17 @@ const RemoveChannel = (props) => {
   const { onHide, modalInfo } = props;
   const { item } = modalInfo;
 
-  const handleRemove = (channel) => {
+  const handleRemove = async (channel) => {
     setDisable(true);
     const { id } = channel;
-    api.removeChannel({ id }, (response) => {
-      const { status } = response;
-      if (status === 'ok') {
-        setDisable(false);
-        onHide();
-        return toast.success(t('toast.success.removeChannel'));
-      }
+    try {
+      await api.removeChannel({ id });
+      setDisable(false);
+      onHide();
+      return toast.success(t('toast.success.removeChannel'));
+    } catch (e) {
       return setDisable(false);
-    });
+    }
   };
 
   return (
