@@ -17,16 +17,16 @@ const MessageInput = () => {
     e.preventDefault();
     setDisable(true);
     const { username } = auth;
-    const response = await api.newMessage({ body: messageText, channelId, username });
-    const { status } = response;
-    if (status === 'ok') {
+    try {
+      await api.newMessage({ body: messageText, channelId, username });
       setMessageText('');
       setDisable(true);
-      return inputEl.current.focus();
+      inputEl.current.focus();
+    } catch (err) {
+      setDisable(false);
+      inputEl.current.focus();
+      inputEl.current.select();
     }
-    setDisable(false);
-    inputEl.current.focus();
-    return inputEl.current.select();
   };
 
   const handleChange = (e) => {
