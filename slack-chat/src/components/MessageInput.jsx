@@ -48,7 +48,9 @@ const MessageInput = () => {
           autoFocus
         />
         <Button variant="outline-secondary" type="submit" disabled={disabledInput}>
-          {t('buttons.send')}
+          <span>
+            <i className="bi bi-send" />
+          </span>
         </Button>
       </InputGroup>
     </Form>
