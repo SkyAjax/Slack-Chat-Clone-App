@@ -15,3 +15,6 @@ start:
 
 start-prod:
 	npm run start
+
+build: 
+	npm run build
