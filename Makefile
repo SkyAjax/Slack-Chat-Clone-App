@@ -1,20 +1,17 @@
 lint-frontend:
-	make -C slack-chat lint
+	make -C frontend lint
 
 install:
 	npm ci
 
 start-frontend:
-	make -C slack-chat start
+	make -C frontend start
 
 start-backend:
 	npx start-server
 
+deploy:
+	git push heroku main
+
 start:
 	make start-backend & make start-frontend
-
-start-prod:
-	npm run start
-
-build: 
-	npm run build
