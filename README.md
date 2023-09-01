@@ -13,7 +13,7 @@
 
 
 ## :rocket: Give it a try:
-[Main link](https://frontend-project-12-production-ae0b.up.railway.app/)
+[Main link](https://slack-chat-pvbg.onrender.com)
 
 
 ## :question: How to install:
