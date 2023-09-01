@@ -7,7 +7,7 @@
     "build": "npm run build --prefix slack-chat",
     "start": "npx start-server -s ./slack-chat/build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd slack-chat && npm install"
+    "postinstall": "cd slack-chat && npm ci"
   },
   "repository": {
     "type": "git",
